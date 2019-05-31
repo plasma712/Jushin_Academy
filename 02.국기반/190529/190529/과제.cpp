@@ -165,30 +165,37 @@ namespace homework2_R
 			}
 		}
 	}
-	int Bingo_RandomNumber()
-	{
-		int iRandomNumber = rand() % 25;//+ 1; // 0 ~ 24 랜덤이니 + 1 해주어 1 ~ 25 사이가 되도록
-		iSaveNumber = iRandomNumber;
-		//cout << iRandomNumber;
-		return iSaveNumber;
-	}
+	//int Bingo_RandomNumber()
+	//{
+	//	int iRandomNumber = rand() % 25;//+ 1; // 0 ~ 24 랜덤이니 + 1 해주어 1 ~ 25 사이가 되도록
+	//	iSaveNumber = iRandomNumber;
+	//	//cout << iRandomNumber;
+	//	return iSaveNumber;
+	//}
 
 	void InsertBingoRandom()
 	{
-		int iRandomNumberA = 0;
-		int iRandomNumberB = 0;
+		int iRandomNumberA1 = 0;
+		int iRandomNumberA2 = 0;
+		int iRandomNumberB1 = 0;
+		int iRandomNumberB2 = 0;
+
 		int iTemp = 0;
 
+		//Bingo_RandomNumber();
 		RandomNumber();
-		for (int k = 0; k < 300; k++)
+		for (int k = 0; k < 1000; k++)
 		{
-			Bingo_RandomNumber();
-			iRandomNumberA = rand() % 5;
-			iRandomNumberB = rand() % 5;
+			//RandomNumber();
+			iRandomNumberA1 = rand() % 5;
+			iRandomNumberA2 = rand() % 5;
 
-			iTemp = iBingo[iRandomNumberA][iRandomNumberB];
-			iBingo[iRandomNumberA][iRandomNumberB] = iBingo[iRandomNumberB][iRandomNumberA];
-			iBingo[iRandomNumberB][iRandomNumberA] = iTemp;
+			iRandomNumberB1 = rand() % 5;
+			iRandomNumberB2 = rand() % 5;
+
+			iTemp = iBingo[iRandomNumberA1][iRandomNumberA2];
+			iBingo[iRandomNumberA1][iRandomNumberA2] = iBingo[iRandomNumberB1][iRandomNumberB2];
+			iBingo[iRandomNumberB1][iRandomNumberB2] = iTemp;
 		}
 
 	}
@@ -335,6 +342,7 @@ namespace homework2_R
 
 void main()
 {
+	//homework1::Lotto();
 	homework2_R::Bingo();
 	return;
 }
