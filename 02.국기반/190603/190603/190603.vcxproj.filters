@@ -15,10 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="문자열관련.cpp">
+    <ClCompile Include="구조체기본.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="메모리관련.cpp">
+    <ClCompile Include="구조체포인터.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="구조체포인터2.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="구조체크기.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="과제.cpp">

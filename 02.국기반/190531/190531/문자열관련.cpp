@@ -35,18 +35,18 @@ void main()
 	//  else
 	//  	cout << "두 문자열은 다릅니다." << endl; 
 
-	// ##3. 문자열 복사하는 표준함수. <string.h>에서 제공
-	// strcpy_s()
+	//##3. 문자열 복사하는 표준함수. <string.h>에서 제공
+	//strcpy_s()
 
-	// char szName_1[32] = "";
-	// char szName_2[32] = "Hello";
+	char szName_1[32] = "";
+	char szName_2[32] = "Hello";
 
-	// 배열의 이름은 상수포인터다.
-	// szName_1 = szName_2; // error
-	 
-	// strcpy_s(szName_1, szName_2);			// strcpy의 확장버전.
-	// cout << "szName_1 : " << szName_1 << endl;
-	// cout << "szName_2 : " << szName_2 << endl;
+	//배열의 이름은 상수포인터다.
+	//szName_1 = szName_2; // error
+	
+	strcpy_s(szName_1, szName_2);			// strcpy의 확장버전.
+	cout << "szName_1 : " << szName_1 << endl;
+	cout << "szName_2 : " << szName_2 << endl;
 
 	// char* ptr = szName_1;
 
