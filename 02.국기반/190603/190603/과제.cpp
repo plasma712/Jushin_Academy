@@ -2,17 +2,17 @@
 
 using namespace std;
 
-const int iMax_Count = 5;
+const int MonsterCount = 5;
 const int iMax_Str = 32;
 
 struct tagGrade
 {
-	char cName[iMax_Count][iMax_Str];
-	int iKorean[iMax_Count];
-	int iEnglish[iMax_Count];
-	int iMath[iMax_Count];
-	int iTotal[iMax_Count];
-	float fAverage[iMax_Count];
+	char cName[MonsterCount][iMax_Str];
+	int iKorean[MonsterCount];
+	int iEnglish[MonsterCount];
+	int iMath[MonsterCount];
+	int iTotal[MonsterCount];
+	float fAverage[MonsterCount];
 };
 
 bool Less(float a, float b) // 오름차순
@@ -33,7 +33,7 @@ void BubbleSort(tagGrade* tGrade, int* pCur_Index);
 
 void InputGrade(tagGrade* tGrade, int* pCur_Index)
 {
-	if (iMax_Count == *pCur_Index)
+	if (MonsterCount == *pCur_Index)
 	{
 		cout << "더 이상 입력할 수 없습니다." << endl;
 		system("pause");
@@ -41,7 +41,7 @@ void InputGrade(tagGrade* tGrade, int* pCur_Index)
 	}
 
 	cout << "학생 이름 입력: ";
-	cin >> tGrade->cName[*pCur_Index];
+	cin >> tGrade->cName[*pCur_Index]; 
 
 	cout << "국어 점수 입력: ";
 	cin >> tGrade->iKorean[*pCur_Index];
