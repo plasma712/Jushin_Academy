@@ -50,13 +50,13 @@ void main()
 	// 2. 연산 과정에서의 형변환
 
 	// 서로 유형이 다를 때
-	// int a = 10;
-	// float b = 3.14f;
+	 int a = 10;
+	 float b = 3.14f;
 
 	// 정수 vs 실수 간의 연산 결과는 실수 타입으로 묵시적 형변환이 일어난다.
-	// cout << sizeof(a*b) << endl;
-	// cout << a * b << endl; // 묵시적 형변환
-	// cout << int(a*b) << endl; // 명시적 형변환
+	 cout << sizeof(a*b) << endl;
+	 cout << a * b << endl; // 묵시적 형변환
+	 cout << int(a*b) << endl; // 명시적 형변환
 
 	// 서로 유형이 같을 때
 	// int a = 10;
@@ -70,9 +70,9 @@ void main()
 
 	// cout << (char)72 << (char)101 << (char)108 << (char)108 << endl;
 
-	int itotal = 275;
-	float fAverage = (float)itotal / 3;
-
-	cout << fAverage << endl;
+	// int itotal = 275;
+	// float fAverage = (float)itotal / 3;
+	// 
+	// cout << fAverage << endl;
 	return;
 }
