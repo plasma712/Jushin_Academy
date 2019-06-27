@@ -2,6 +2,14 @@
 #include"cImitateString.h"
 using namespace std;
 
+//ostream& operator << (ostream& _cout, cImitateString& _cText)
+//{
+//	_cout << _cText.GetText();
+//	return _cout;
+//}
+
+
+
 void main()
 {
 	cImitateString Str1 = "Hello";
@@ -54,6 +62,8 @@ void main()
 	cout << "Str4 == H ";
 	Str4 == "H";
 	cout << "-------------------------------------" << endl;
+
+
 
 	return;
 }

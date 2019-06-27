@@ -3,8 +3,8 @@
 using namespace std;
 
 
-
 cImitateString::cImitateString()
+	:m_cText(nullptr)
 {
 }
 
@@ -13,10 +13,25 @@ cImitateString::~cImitateString()
 {
 }
 
+cImitateString::cImitateString(const cImitateString & _Text)
+	:cImitateString(_Text.m_cText)
+{
+
+}
+
 cImitateString::cImitateString(const char * _Text)
 {
 	m_cText = new char[strlen(_Text)+1];
 	strcpy_s(m_cText, strlen(_Text) + 1, _Text);
+}
+
+void cImitateString::Release()
+{
+	if (m_cText)
+	{
+		delete[] m_cText;
+		m_cText = nullptr;
+	}
 }
 
 cImitateString cImitateString::operator+(const char * _PlusText)
@@ -65,6 +80,7 @@ cImitateString cImitateString::operator+=(cImitateString _PlusText)
 	//return cImitateString();
 }
 
+
 cImitateString cImitateString::operator==(const char * _PlusText)
 {
 	if (strcmp(this->m_cText, _PlusText) == false)
@@ -98,6 +114,11 @@ cImitateString cImitateString::operator==(cImitateString _PlusText)
 
 	return cImitateString();
 }
+
+// ostream cImitateString::operator<<(cImitateString _PluseText)
+// {
+// 	_PluseText.GetText();
+// }
 
 
 
