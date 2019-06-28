@@ -49,8 +49,8 @@ void main()
 	// ##4. sizeof 연산자
 	// 피연산자의 메모리크기를 측정하는 연산자. (byte 단위.)
 
-	// char			a = 'A';
-	// bool			b = true;
+	// char				a = 'A';
+	// bool				b = true;
 	// short			c = 100;
 	// int				d = 1000;
 	// long long		e = 10000;

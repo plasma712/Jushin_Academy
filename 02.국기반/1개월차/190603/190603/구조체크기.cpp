@@ -3,7 +3,7 @@ using namespace std;
 
 struct tagTest1
 {
-	short a;
+	short a; 
 	int b;
 	char c;
 	double d;
