@@ -17,23 +17,23 @@ cGameObject::~cGameObject()
 
 void cGameObject::Init()
 {
-	cout << "직  업 : " << GetcName() << endl;
-	cout << "레  벨 : " << GetiLv() << endl;
-	cout << "공격력 : " << GetiAtk() << endl;
-	cout << "방어력 : " << GetiDef() << endl;
-	cout << "체  력 : " << GetiHp() << " / " << GetiMaxHp() << endl;
-	cout << "경험치 : " << GetiExp() << endl;
-	cout << "소지금 : " << GetiGold() << endl;
+	// cout << "직  업 : " << GetcName() << endl;
+	// cout << "레  벨 : " << GetiLv() << endl;
+	// cout << "공격력 : " << GetiAtk() << endl;
+	// cout << "방어력 : " << GetiDef() << endl;
+	// cout << "체  력 : " << GetiHp() << " / " << GetiMaxHp() << endl;
+	// cout << "경험치 : " << GetiExp() << endl;
+	// cout << "소지금 : " << GetiGold() << endl;
 }
 
 void cGameObject::Draw()
-{// Init();
-	cout << "직  업 : " << GetcName() << endl;
-	cout << "레  벨 : " << GetiLv() << endl;
-	cout << "공격력 : " << GetiAtk() << endl;
-	cout << "방어력 : " << GetiDef() << endl;
-	cout << "체  력 : " << GetiHp() << " / " << GetiMaxHp() << endl;
-	cout << "경험치 : " << GetiExp() << endl;
+{	
+	// cout << "직  업 : " << GetcName() << endl;
+	// cout << "레  벨 : " << GetiLv() << endl;
+	// cout << "공격력 : " << GetiAtk() << endl;
+	// cout << "방어력 : " << GetiDef() << endl;
+	// cout << "체  력 : " << GetiHp() << " / " << GetiMaxHp() << endl;
+	// cout << "경험치 : " << GetiExp() << endl;
 }
 
 void cGameObject::Update()
@@ -143,4 +143,10 @@ void cGameObject::SetiExp(int _iExp)
 void cGameObject::SetiGold(int _iGold)
 {
 	Stats.iGold = _iGold;
+}
+
+const tagStats & cGameObject::GetInfoData() const
+{
+	// TODO: 여기에 반환 구문을 삽입합니다.
+	return Stats;
 }

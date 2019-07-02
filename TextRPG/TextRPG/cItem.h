@@ -6,6 +6,8 @@ class cItem : public cGameObject
 {
 public:
 	cPlayer* Player;
+	char cItemClass[32];
+	char cItemSlot[32];
 public:
 	cItem();
 	cItem(
@@ -17,7 +19,10 @@ public:
 		int  _iMaxHp,
 		int  _iLv,
 		int  _iExp,
-		int  _iGold
+		int  _iGold,
+		const char*  _cItemClass,
+		const char*  _cItemSlot
+
 	);
 
 	virtual ~cItem();
@@ -40,5 +45,9 @@ public:
 		int  _iExp,
 		int  _iGold
 	);
+public:
+	void SaveItem(cItem* _cItem);
+	void LoadItem(int _iSelect);
+	void CreateItem();
 };
 

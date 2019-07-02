@@ -23,5 +23,16 @@ public:
 
 	cGameObject* ExtractPlayer();			  // 플레이어 주소 추출
 	void Receive(cGameObject* _Player);	      // 플레이어 주소 받기
+public:
+#pragma region 텍스트 뿌려주는 함수들.
+	void TitleCout();
+	void PlayerSelectCout();
+
+#pragma endregion;
+
+
+
+
+
 };
 

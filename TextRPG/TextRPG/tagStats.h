@@ -27,4 +27,5 @@ struct tagStats
 	int  iLv;
 	int  iExp;
 	int  iGold;
+	int  iMaxExp;
 };

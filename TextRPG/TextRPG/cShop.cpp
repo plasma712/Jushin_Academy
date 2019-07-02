@@ -10,25 +10,20 @@ cShop::cShop()
 
 cShop::~cShop()
 {
-	for (int i = 0; i < 300; i++)
-	{
-		delete[i] Item;
-	}
 
 }
 
 void cShop::Init()
 {
-	Item = new cItem[300];
-	for (int i = 0; i < 300; i++)
-	{
-		Item[i].Setting(i, "아이템", 1, 1, 1, 1, 1, 1, 1);
-	}
+	Item = new cItem;
+
 }
 
 void cShop::Draw()
 {
-	Init();
+	//Init();
+	//Item->CreateItem();
+
 	while (true)
 	{
 		system("cls");
@@ -42,22 +37,27 @@ void cShop::Draw()
 		cin >> _iSelect;
 		if (_iSelect == 4)
 			return;
-		for (int i = (_iSelect - 1) * 100; i < (_iSelect - 1) * 100 + (sizeof(Item[i]) / unsigned(Item[i].GettagStatsSizeof())); i++)
+		//for (int i = (_iSelect - 1) * 100; i < (_iSelect - 1) * 100 + (sizeof(Item[i]) / unsigned(Item[i].GettagStatsSizeof())); i++)
+		//{
+		//	if (Item[i].GetcName() == nullptr)
+		//	{
+		//		if (_iChecking == 0)
+		//			cout << "물건이 없습니다." << endl;
+		//		system("pause");
+		//		break;
+		//	}
+		//	cout << "이  름 : " << Item[i].GetcName() << endl;
+		//	cout << "공격력 : " << Item[i].GetiAtk() << endl;
+		//	cout << "방어력 : " << Item[i].GetiDef() << endl;
+		//	cout << "금  액 : " << Item[i].GetiGold() << endl;
+		//	cout << "------------------------------" << endl;
+		//	_iChecking++;
+		//}
+		if (_iSelect == 1)
 		{
-			if (Item[i].GetcName() == nullptr)
-			{
-				if (_iChecking == 0)
-					cout << "물건이 없습니다." << endl;
-
-				system("pause");
-				break;
-			}
-			cout << "이  름 : " << Item[i].GetcName() << endl;
-			cout << "공격력 : " << Item[i].GetiAtk() << endl;
-			cout << "방어력 : " << Item[i].GetiDef() << endl;
-			cout << "금  액 : " << Item[i].GetiGold() << endl;
-			cout << "------------------------------" << endl;
-			_iChecking++;
+			ItemScroll();
+			break;
+			system("pause");
 		}
 	}
 }
@@ -93,9 +93,55 @@ void cShop::Receive(cItem * _Item)
 
 void cShop::Buy()
 {
+
 }
 
 void cShop::Sell()
 {
+}
+
+void cShop::ItemScroll()
+{
+	static int iInherentNumber = 0;
+	while (true)
+	{
+		int Direction = 0;
+		system("cls");
+		//cout << "iInherentNumber : " << iInherentNumber << endl;
+		Item->LoadItem(iInherentNumber);
+		cout << "무기 상점 입니다." << endl;
+		cout << "==========================================" << endl;
+		Item->Draw();
+		cout << "==========================================" << endl;
+		cout << "다른   아이템   보기" << endl;
+		cout << "1. 왼쪽   2. 오른쪽   3.나가기 " << endl;
+		cout << "선택 : ";
+		cin >> Direction;
+
+		if (Direction == 1)
+		{
+			--iInherentNumber;
+			if (iInherentNumber < 0)
+			{
+				++iInherentNumber;
+				cout << "상점의 첫번째 아이템입니다." << endl;
+				system("pause");
+			}
+		}
+		else if (Direction == 2)
+		{
+			++iInherentNumber;
+			if (iInherentNumber > 99)
+			{
+				--iInherentNumber;
+				cout << "상점의 마지막 아이템입니다." << endl;
+				system("pause");
+			}
+		}
+		else
+		{
+			return;
+		}
+	}
 }
 

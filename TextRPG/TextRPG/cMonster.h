@@ -27,7 +27,21 @@ public: // 기본 구조
 public:
 	//배열에선 생성자를 통해 초기화 불가능?
 
-	void SetConstructor(int _InherentNumber, const char * _cName, int _iAtk, int _iDef, int _iHp, int _iMaxHp, int _iLv, int _iExp, int _iGold);
-	
+	void SetConstructor
+	(
+		int _InherentNumber, 
+		const char * _cName, 
+		int _iAtk, int _iDef, 
+		int _iHp, 
+		int _iMaxHp, 
+		int _iLv, 
+		int _iExp, 
+		int _iGold
+	);
+	void MonsterStatsSave();
+	void MonsterStatsLoad(int _iSelect);
+
+	void CreateMonster();
+	//char CreateName(int _InherentNumber);
 };
 

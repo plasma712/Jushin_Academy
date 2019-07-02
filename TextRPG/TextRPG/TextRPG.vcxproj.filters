@@ -13,18 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\Main">
+      <UniqueIdentifier>{efb1669d-b9b8-42e0-8fb4-cc20a6a3fd72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Main\Player">
+      <UniqueIdentifier>{49cf9d8f-2332-43bd-915d-8667231aa7ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Main\Field">
+      <UniqueIdentifier>{8d6e6562-4af9-4c80-8349-8da725c97b1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Main\Monster">
+      <UniqueIdentifier>{5f051199-7208-4e92-aa2b-e172683dfd43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Inventory">
+      <UniqueIdentifier>{5edac27d-5c03-43cd-a502-ead7f7464cc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Shop">
+      <UniqueIdentifier>{68da3ddf-ba1f-4ec6-bad8-21fea320bd70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Item">
+      <UniqueIdentifier>{378a2f22-9399-45ca-97ce-d9bd1549a0db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cGameObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cPlayer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cMonster.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cItem.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="tagStats.h">
@@ -33,40 +45,55 @@
     <ClInclude Include="include.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="cField.h">
+      <Filter>소스 파일\Main\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="cMonster.h">
+      <Filter>소스 파일\Main\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayer.h">
+      <Filter>소스 파일\Main\Player</Filter>
+    </ClInclude>
     <ClInclude Include="cMainGame.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="cInventory.h">
+      <Filter>소스 파일\Inventory</Filter>
     </ClInclude>
     <ClInclude Include="cShop.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\Shop</Filter>
     </ClInclude>
-    <ClInclude Include="cField.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="cItem.h">
+      <Filter>소스 파일\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cGameObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cPlayer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cMonster.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cItem.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="cField.cpp">
+      <Filter>소스 파일\Main\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="cMonster.cpp">
+      <Filter>소스 파일\Main\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayer.cpp">
+      <Filter>소스 파일\Main\Player</Filter>
+    </ClCompile>
     <ClCompile Include="cMainGame.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="cInventory.cpp">
+      <Filter>소스 파일\Inventory</Filter>
     </ClCompile>
     <ClCompile Include="cShop.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Shop</Filter>
     </ClCompile>
-    <ClCompile Include="cField.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="cItem.cpp">
+      <Filter>소스 파일\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

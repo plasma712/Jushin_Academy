@@ -1,10 +1,24 @@
 #pragma once
 #include "tagStats.h"
 
+enum LevelDesign
+{
+	Design_Lv_1 = 10,
+	Design_Lv_2 = 16,
+	Design_Lv_3 = 26,
+	Design_Lv_4 = 42,
+	Design_Lv_5 = 68,
+	Design_Lv_6 = 110,
+	Design_Lv_7 = 178,
+	Design_Lv_8 = 288
+};
+
+
 class cGameObject
 {
-private:
+protected:
 	tagStats Stats;
+	LevelDesign LvDesign;
 public:
 	cGameObject();
 	cGameObject(
@@ -49,6 +63,9 @@ public: // Set 함수 (변수값으로 초기화?)
 	void SetiLv(int _iLv);
 	void SetiExp(int _iExp);
 	void SetiGold(int _iGold);
+
+public:
+	const tagStats& GetInfoData() const;
 
 };
 

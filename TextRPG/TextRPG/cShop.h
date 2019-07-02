@@ -26,5 +26,6 @@ public:
 
 	void Buy();
 	void Sell();
+	void ItemScroll();
 };
 

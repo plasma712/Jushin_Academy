@@ -26,6 +26,9 @@ public: // 기본 구조
 
 public:
 	void CoreStats();
-	void LevelUp(cPlayer* _Player);
+	void LevelUp();
+	void LevelDesignCheck(int _PlayerLv);
+	void PlayerStatsSave();
+	void PlayerStatsLoad(); //, bool _CharLoadErrorChecking)
 };
 

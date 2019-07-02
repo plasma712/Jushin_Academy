@@ -21,7 +21,7 @@ void cField::Init()
 void cField::Draw()
 {
 	dynamic_cast<cMonster*>(Monster)->Init();
-	cout << "------------------------------------" << endl;
+	//cout << "==========================================" << endl;
 	dynamic_cast<cPlayer*>(Player)->Init();
 }
 
@@ -53,7 +53,7 @@ void cField::Battle()
 	{
 		system("cls");
 		Draw();
-		cout << "------------------------------------" << endl;
+		//cout << "==========================================" << endl;
 		cout << "1. 공격  2. 도망" << endl;
 		cin >> iSelect;
 		switch (iSelect)
@@ -68,9 +68,13 @@ void cField::Battle()
 			break;
 		}
 
-		if (Monster->GetiHp() > 0 ||Player->GetiHp()<=0)
-			continue;
-		else
+		//if (Monster->GetiHp() > 0 || Player->GetiHp()<=0)
+		if (Player->GetiHp() <= 0)
+		{
+
+			break;
+		}
+		else if(Player->GetiHp()>0&&Monster->GetiHp()<=0)
 		{
 			Reward(Player, Monster);
 			break;
@@ -105,25 +109,34 @@ void cField::SelectFieldLevel()
 	while (true)
 	{
 		system("cls");
-		cout << "1. 초급 던전  2. 중급 던전  3. 고급 던전  4. 나가기" << endl;
-		cout << "선택 : "; cin >> iSelect;
-
-		switch (iSelect)
-		{
-		case 1:
-			Monster = new cMonster(0, "슬라임", 5, 1, 20, 20, 1, 10, 100);
-			return;
-		case 2:
-			Monster = new cMonster(0, "주황버섯", 5, 5, 40, 40, 1, 15, 100);
-			return;
-		case 3:
-			Monster = new cMonster(0, "파란버섯", 5, 10, 80, 80, 1, 20, 100);
-			return;
-		case 4:
-			return;
-		default:
-			break;
-		}
+		//cout << "1. 초급 던전  2. 중급 던전  3. 고급 던전  4. 나가기" << endl;
+		//cout << "선택 : "; cin >> iSelect;
+		//
+		//switch (iSelect)
+		//{
+		//case 1:
+		//	Monster = new cMonster; //(0, "슬라임", 5, 1, 20, 20, 1, 1000, 100);
+		//	dynamic_cast<cMonster*>(Monster)->MonsterStatsLoad(iSelect);
+		//	return;
+		//case 2:
+		//	//Monster = new cMonster(0, "주황버섯", 5, 5, 40, 40, 1, 15, 100);
+		//	Monster = new cMonster; //(0, "슬라임", 5, 1, 20, 20, 1, 1000, 100);
+		//	dynamic_cast<cMonster*>(Monster)->MonsterStatsLoad(iSelect);
+		//	return;
+		//case 3:
+		//	//Monster = new cMonster(0, "파란버섯", 5, 10, 80, 80, 1, 20, 100);
+		//	Monster = new cMonster; //(0, "슬라임", 5, 1, 20, 20, 1, 1000, 100);
+		//	dynamic_cast<cMonster*>(Monster)->MonsterStatsLoad(iSelect);
+		//
+		//	return;
+		//case 4:
+		//	return;
+		//default:
+		//	break;
+		//}
+		Monster = new cMonster; //(0, "슬라임", 5, 1, 20, 20, 1, 1000, 100);
+		dynamic_cast<cMonster*>(Monster)->MonsterStatsLoad(Player->GetiLv());
+		return;
 	}
 }
 
@@ -135,7 +148,7 @@ void cField::Reward(cGameObject * _Player, cGameObject * _Monster)
 	{
 		_Player->SetiExp(_Monster->GetiExp()+_Player->GetiExp());
 		_Player->SetiGold(_Monster->GetiGold() + _Player->GetiGold());
-		dynamic_cast<cPlayer*>(_Player)->LevelUp(dynamic_cast<cPlayer*>(_Player));
+		dynamic_cast<cPlayer*>(_Player)->LevelUp();
 	}
 }
 
