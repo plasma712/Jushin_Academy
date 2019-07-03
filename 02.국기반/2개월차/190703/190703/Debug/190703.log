@@ -1,0 +1,14 @@
+﻿  소스.cpp
+c:\users\plasma\desktop\쥬신게임아카데미\02.국기반\2개월차\190703\190703\소스.cpp(36): warning C4326: 'main'의 반환 형식이 'int'이어야 하는데 'void'입니다.
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\algorithm(92): error C2198: '_Fn': 호출에 매개 변수가 너무 적습니다.
+          with
+          [
+              _Fn=bool (__cdecl *)(int,int)
+          ]
+  c:\users\plasma\desktop\쥬신게임아카데미\02.국기반\2개월차\190703\190703\소스.cpp(77): note: 컴파일 중인 함수 템플릿 인스턴스화 '_Fn (__cdecl *std::for_each<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,bool(__cdecl *)(int,int)>(_InIt,_InIt,_Fn))(int,int)'에 대한 참조를 확인하십시오.
+          with
+          [
+              _Fn=bool (__cdecl *)(int,int),
+              _Ty=int,
+              _InIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<int>>>
+          ]
