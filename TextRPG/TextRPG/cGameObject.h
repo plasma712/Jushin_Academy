@@ -65,6 +65,9 @@ public: // Set 함수 (변수값으로 초기화?)
 	void SetiGold(int _iGold);
 
 public:
+	void ExpendiGold(int _iGold);
+
+public:
 	const tagStats& GetInfoData() const;
 
 };

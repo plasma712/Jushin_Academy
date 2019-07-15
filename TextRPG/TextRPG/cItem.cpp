@@ -123,5 +123,10 @@ void cItem::CreateItem() // 테스트용으로 만들기.
 
 }
 
+tagStats* cItem::StatsReturn()
+{
+	return& Stats;
+}
+
 
 

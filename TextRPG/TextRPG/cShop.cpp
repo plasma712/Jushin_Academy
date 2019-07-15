@@ -114,7 +114,7 @@ void cShop::ItemScroll()
 		Item->Draw();
 		cout << "==========================================" << endl;
 		cout << "다른   아이템   보기" << endl;
-		cout << "1. 왼쪽   2. 오른쪽   3.나가기 " << endl;
+		cout << "1. 왼쪽   2. 오른쪽   3. 구매   4.나가기 " << endl;
 		cout << "선택 : ";
 		cin >> Direction;
 
@@ -138,10 +138,41 @@ void cShop::ItemScroll()
 				system("pause");
 			}
 		}
+		else if (Direction == 3)
+		{
+			int iBuySelect = 0;
+			cout << " 정말로 구매하시겠습니까? " << endl;
+			cout << "구매 전 : " << Player->GetiGold()<<"골드" << endl; 
+			cout << "구매 후 : " << Player->GetiGold() - Item->GetiGold() << "골드" << endl;
+			cout << "==========================================" << endl;
+			cout << "1. 구매완료.  2.구매취소  :";
+			cin >> iBuySelect;
+			if (iBuySelect == 1)
+			{
+				if (Player->GetiGold() >= Item->GetiGold())
+				{
+					Player->ExpendiGold(Item->GetiGold());
+					Inventory->SaveHavingItem(Item);
+					dynamic_cast<cPlayer*>(Player)->PlayerStatsSave();
+					cout << "구매완료" << endl;
+					system("pause");
+				}
+				else
+				{
+					system("cls");
+					cout << "돈이 부족합니다." << endl;
+					system("pause");
+					break;
+				}
+			}
+			else
+				break;
+		}
 		else
 		{
 			return;
 		}
 	}
+	return;
 }
 

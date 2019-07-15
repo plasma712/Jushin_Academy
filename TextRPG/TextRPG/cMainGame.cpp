@@ -4,6 +4,7 @@
 #include "cShop.h"
 #include "cField.h"
 #include "cMonster.h"
+#include "cInventory.h"
 
 cMainGame::cMainGame()
 	: Player(nullptr), Monster(nullptr)
@@ -87,6 +88,8 @@ void cMainGame::Lobby()
 			Shop->Draw();
 			break;
 		case 3:
+			Inventory->Receive(Player);
+			Inventory->Draw();
 			return;
 		default:
 			break;

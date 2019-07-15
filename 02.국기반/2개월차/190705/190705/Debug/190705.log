@@ -1,0 +1,10 @@
+﻿  02.Map.cpp
+c:\users\plasma\desktop\쥬신게임아카데미\02.국기반\2개월차\190705\190705\02.map.cpp(6): warning C4326: 'main'의 반환 형식이 'int'이어야 하는데 'void'입니다.
+c:\users\plasma\desktop\쥬신게임아카데미\02.국기반\2개월차\190705\190705\02.map.cpp(69): error C3867: 'std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::end': 비표준 구문입니다. '&'를 사용하여 멤버 포인터를 만드세요.
+          with
+          [
+              _Kty=const char *,
+              _Ty=int,
+              _Pr=std::less<const char *>,
+              _Alloc=std::allocator<std::pair<const char *const ,int>>
+          ]

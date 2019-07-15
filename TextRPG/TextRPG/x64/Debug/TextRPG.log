@@ -1,8 +1,2 @@
 ﻿  cInventory.cpp
-c:\users\plasma\desktop\쥬신게임아카데미\textrpg\textrpg\cinventory.cpp(20): error C2059: 구문 오류: ')'
-c:\users\plasma\desktop\쥬신게임아카데미\textrpg\textrpg\cinventory.cpp(20): error C2143: 구문 오류: '('이(가) ')' 앞에 없습니다.
-c:\users\plasma\desktop\쥬신게임아카데미\textrpg\textrpg\cinventory.cpp(20): error C2660: 'fwrite': 함수는 1개의 매개 변수를 사용하지 않습니다.
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(292): note: 'fwrite' 선언을 참조하십시오.
-c:\users\plasma\desktop\쥬신게임아카데미\textrpg\textrpg\cinventory.cpp(20): error C2143: 구문 오류: ';'이(가) ')' 앞에 없습니다.
-  cShop.cpp
-  코드를 생성하고 있습니다...
+  TextRPG.vcxproj -> C:\Users\Plasma\Desktop\쥬신게임아카데미\TextRPG\x64\Debug\TextRPG.exe

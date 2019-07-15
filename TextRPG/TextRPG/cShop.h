@@ -1,12 +1,13 @@
 #pragma once
 #include "cItem.h"
+#include "cInventory.h"
 
 class cShop
 {
 public:
 	cGameObject* Player;
 	cItem*   Item;
-
+	cInventory* Inventory;
 public:
 	cShop();
 	~cShop();

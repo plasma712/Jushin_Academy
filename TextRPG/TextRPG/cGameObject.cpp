@@ -145,6 +145,11 @@ void cGameObject::SetiGold(int _iGold)
 	Stats.iGold = _iGold;
 }
 
+void cGameObject::ExpendiGold(int _iGold)
+{
+	Stats.iGold -= _iGold;
+}
+
 const tagStats & cGameObject::GetInfoData() const
 {
 	// TODO: 여기에 반환 구문을 삽입합니다.

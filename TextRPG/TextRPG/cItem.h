@@ -49,5 +49,6 @@ public:
 	void SaveItem(cItem* _cItem);
 	void LoadItem(int _iSelect);
 	void CreateItem();
+	tagStats* StatsReturn();
 };
 

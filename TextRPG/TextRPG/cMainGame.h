@@ -3,6 +3,7 @@
 class cField;
 class cShop;
 class cGameObject;
+class cInventory;
 
 class cMainGame
 {
@@ -11,6 +12,7 @@ public:
 	cGameObject* Monster;
 	cField* Field;
 	cShop* Shop;
+	cInventory* Inventory;
 public:
 	cMainGame();
 	virtual ~cMainGame();
