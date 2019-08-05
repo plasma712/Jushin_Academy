@@ -1,0 +1,5 @@
+Logo,./logo.bmp
+Stage1,./Stage_1.bmp
+Player,./Player.bmp
+Monster,./air_Monster1.bmp
+Bullet,./Player_Bullet.bmp

@@ -1,0 +1,29 @@
+﻿1>------ 빌드 시작: 프로젝트: API_TEAM_PROJECT, 구성: Debug x64 ------
+1>  stdafx.cpp
+1>  Stage1Scene.cpp
+1>c:\users\administrator\desktop\git\api_team_project\api_team_project\stage1scene.cpp(143): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+1>  Scene.cpp
+1>  ResourceManager.cpp
+1>  Player.cpp
+1>c:\users\administrator\desktop\git\api_team_project\api_team_project\player.cpp(33): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+1>c:\users\administrator\desktop\git\api_team_project\api_team_project\player.cpp(55): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+1>c:\users\administrator\desktop\git\api_team_project\api_team_project\player.cpp(92): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+1>  Monster.cpp
+1>c:\users\administrator\desktop\git\api_team_project\api_team_project\monster.cpp(47): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+1>  MainGame.cpp
+1>  LogoScene.cpp
+1>  KeyManager.cpp
+1>  GameObject.cpp
+1>  EffectManager.cpp
+1>  Effect.cpp
+1>c:\users\administrator\desktop\git\api_team_project\api_team_project\effect.cpp(41): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+1>  CollisionManager.cpp
+1>  Bullet.cpp
+1>c:\users\administrator\desktop\git\api_team_project\api_team_project\bullet.cpp(60): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+1>c:\users\administrator\desktop\git\api_team_project\api_team_project\bullet.cpp(70): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+1>c:\users\administrator\desktop\git\api_team_project\api_team_project\bullet.cpp(71): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+1>  API_TEAM_PROJECT.cpp
+1>  코드를 생성하고 있습니다...
+1>  API_TEAM_PROJECT.vcxproj -> C:\Users\Administrator\Desktop\git\API_TEAM_PROJECT\x64\Debug\API_TEAM_PROJECT.exe
+1>  API_TEAM_PROJECT.vcxproj -> C:\Users\Administrator\Desktop\git\API_TEAM_PROJECT\x64\Debug\API_TEAM_PROJECT.pdb (Full PDB)
+========== 빌드: 성공 1, 실패 0, 최신 0, 생략 0 ==========
