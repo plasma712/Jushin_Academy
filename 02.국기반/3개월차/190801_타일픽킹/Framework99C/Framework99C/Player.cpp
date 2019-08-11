@@ -107,6 +107,7 @@ CGameObject* CPlayer::CreateGuideBullet()
 	return CAbstractFactory<CGuideBullet>::CreateObject(m_fPosinX, m_fPosinY);
 }
 
+
 void CPlayer::KeyInput()
 {
 	// 플레이어가 움직인만큼 스크롤도 움직인다.
