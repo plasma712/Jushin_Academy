@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "cMainGame.h"
+#include "cResourceManager.h"
 
 
 cMainGame::cMainGame()
@@ -18,6 +19,7 @@ void cMainGame::Init()
 
 	cAniMation::GetInstance()->LoadBmp(L"../Resource/Image/BackBuffer.bmp", L"BackBuffer");
 	//cAniMation::GetInstance()->LoadBmp(L"../Resource/Image/05.Menu/MenuBack.bmp", L"Title");
+	hBackBuffer = cAniMation::GetInstance()->GetMemDC(L"BackBuffer");
 
 	cSceneMgr::GetInstance()->SceneChange(SCENE_TITLE);
 }
@@ -30,13 +32,15 @@ void cMainGame::Update()
 
 void cMainGame::Draw()
 {
-	HDC hBackBuffer = cAniMation::GetInstance()->GetMemDC(L"BackBuffer");
 
-	NULL_CHECK(hBackBuffer);
-
+	//NULL_CHECK(hBackBuffer);
 	cSceneMgr::GetInstance()->Draw(hBackBuffer);
 
+	TCHAR szBuf[32] = L"";
+	swprintf_s(szBuf, L"FPS: %d", m_iFPS);
+	TextOut(hBackBuffer, 0, 0, szBuf, lstrlen(szBuf));
 	BitBlt(m_hdc, 0, 0, WINCX, WINCY, hBackBuffer, 0, 0, SRCCOPY);
+
 
 }
 
@@ -48,4 +52,9 @@ void cMainGame::Release()
 	cSceneMgr::GetInstance()->DestroyInstance();
 	cAniMation::GetInstance()->DestroyInstance();
 
+}
+
+void cMainGame::SetFPS(int FPS)
+{
+	m_iFPS = FPS;
 }

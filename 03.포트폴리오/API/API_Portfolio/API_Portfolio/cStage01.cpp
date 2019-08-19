@@ -20,12 +20,8 @@ void cStage01::Init()
 	//cLineEditer::GetInstance()->ReadData();
 
 	cGameObject* pGameObject = nullptr;
-	
 	pGameObject = cAbstractFactory<cBackGround>::CreateObject();
 	cObjectMgr::GetInstance()->AddObject(OBJECT_BACKGROUND, pGameObject);
-	
-	
-
 
 	pGameObject = cAbstractFactory<cPlayer>::CreateObject();
 	cObjectMgr::GetInstance()->AddObject(OBJECT_PLAYER, pGameObject);

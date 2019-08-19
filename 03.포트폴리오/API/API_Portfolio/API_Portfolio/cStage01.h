@@ -13,6 +13,7 @@ public:
 	virtual void Draw(HDC hdc) override;
 	virtual void Release() override;
 	/////////
+	
 
 };
 

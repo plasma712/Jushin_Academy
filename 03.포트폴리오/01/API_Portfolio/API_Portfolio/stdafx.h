@@ -2,8 +2,12 @@
 // 표준 시스템 포함 파일 또는 프로젝트 관련 포함 파일이
 // 들어 있는 포함 파일입니다.
 //
-
 #pragma once
+
+#pragma comment(lib, "msimg32.lib")  
+
+#pragma comment(lib,"winmm.lib")
+
 
 #include "targetver.h"
 
@@ -23,34 +27,22 @@
 #include <iostream>
 #include <mmsystem.h>
 #include <algorithm>
-#include <map>
 using std::wstring;
 using std::hash;
 using std::list;
 using std::unordered_map;
 
-
-////////////////////////////////
-#include "Struct.h"
-#include "Extern.h"
-#include "Define.h"
-#include "TemPlate.h"
-#include "Enum.h"
-#include "cAbstractFactory.h"
-#include "cObjectMgr.h"
-
-////////////////////////////////
-#include "cMousePoint.h"
-#include "cMouse.h"
-#include "cLineEditer.h"
-#include "cAniMation.h"
-#include "cKeyMgr.h"
-#include "cSceneMgr.h"
+// TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
+#include "extern.h"
+#include "enum.h"
+#include "define.h"
+#include "global.h"
+#include "struct.h"
+#include "typedef.h"
+#include "AbstractFactory.h"
+#include "CollisionManager.h"
+#include "ResourceManager.h"
+#include "MainGame.h"
+#include "KeyManager.h"
 #include "cScrollMgr.h"
-#include "cCollsionMgr.h"
-#include "Resource.h"
-//
-
-#include <vld.h>
-
-#include <crtdbg.h>
+#include "cLineEditer.h"

@@ -144,7 +144,7 @@ void cPlayer::Draw(HDC hdc)
 		m_Frame.iStartY * (int)m_Info.fHeightY,
 		(int)m_Info.fWidthX,
 		(int)m_Info.fHeightY,
-		RGB(201, 0, 255)
+		RGB(200, 0, 255)
 	);
 
 
@@ -456,8 +456,9 @@ void cPlayer::vIDLE_GAMESTART_RIGHT()
 
 void cPlayer::vIDLE_RIGHT()
 {
+	m_wstrObjectKey = L"_IDLE_RIGHT";
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 1;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 9;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -469,7 +470,7 @@ void cPlayer::vIDLE_RIGHT()
 void cPlayer::vWALK_RIGHT()
 {
 	m_Frame.iStartX = 2;
-	m_Frame.iStartY = 4;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 16;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -481,7 +482,7 @@ void cPlayer::vWALK_RIGHT()
 void cPlayer::vIDLE_ATTACK_RIGHT()
 {
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 2;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 8;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -493,7 +494,7 @@ void cPlayer::vIDLE_ATTACK_RIGHT()
 void cPlayer::vREINFORCE_ATTACK_RIGHT()
 {
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 3;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 8;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -505,7 +506,7 @@ void cPlayer::vREINFORCE_ATTACK_RIGHT()
 void cPlayer::vWALK_ATTACK_RIGHT()
 {
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 5;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 16;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -517,7 +518,7 @@ void cPlayer::vWALK_ATTACK_RIGHT()
 void cPlayer::vDASH_RIGHT()
 {
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 6;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 12;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -530,7 +531,7 @@ void cPlayer::vDASH_RIGHT()
 void cPlayer::vDASH_ATTACK_RIGHT()
 {
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 7;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 12;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -542,7 +543,7 @@ void cPlayer::vDASH_ATTACK_RIGHT()
 void cPlayer::vDASH_STOP_RIGHT()
 {
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 8;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 4;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -554,7 +555,7 @@ void cPlayer::vDASH_STOP_RIGHT()
 void cPlayer::vJUMP_RIGHT()
 {
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 10;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 4;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -568,7 +569,7 @@ void cPlayer::vJUMP_RIGHT()
 void cPlayer::vJUMP_ATTACK_RIGHT()
 {
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 11;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 4;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -594,7 +595,7 @@ void cPlayer::vIDLE_GAMESTART_LEFT()
 void cPlayer::vIDLE_LEFT()
 {
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 1;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 9;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -607,7 +608,7 @@ void cPlayer::vIDLE_LEFT()
 void cPlayer::vWALK_LEFT()
 {
 	m_Frame.iStartX = 2;
-	m_Frame.iStartY = 4;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 16;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -619,7 +620,7 @@ void cPlayer::vWALK_LEFT()
 void cPlayer::vIDLE_ATTACK_LEFT()
 {
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 2;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 8;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -631,7 +632,7 @@ void cPlayer::vIDLE_ATTACK_LEFT()
 void cPlayer::vREINFORCE_ATTACK_LEFT()
 {
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 3;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 8;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -642,7 +643,7 @@ void cPlayer::vREINFORCE_ATTACK_LEFT()
 void cPlayer::vWALK_ATTACK_LEFT()
 {
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 5;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 16;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -653,7 +654,7 @@ void cPlayer::vWALK_ATTACK_LEFT()
 void cPlayer::vDASH_LEFT()
 {
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 6;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 12;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -666,7 +667,7 @@ void cPlayer::vDASH_LEFT()
 void cPlayer::vDASH_ATTACK_LEFT()
 {
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 7;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 12;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -677,7 +678,7 @@ void cPlayer::vDASH_ATTACK_LEFT()
 void cPlayer::vDASH_STOP_LEFT()
 {
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 8;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 4;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -688,7 +689,7 @@ void cPlayer::vDASH_STOP_LEFT()
 void cPlayer::vJUMP_LEFT()
 {
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 10;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 4;
 
 	m_Frame.dwOldTime = GetTickCount();
@@ -699,7 +700,7 @@ void cPlayer::vJUMP_LEFT()
 void cPlayer::vJUMP_ATTACK_LEFT()
 {
 	m_Frame.iStartX = 0;
-	m_Frame.iStartY = 11;
+	m_Frame.iStartY = 0;
 	m_Frame.iFrameCount = 4;
 
 	m_Frame.dwOldTime = GetTickCount();

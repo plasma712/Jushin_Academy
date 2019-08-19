@@ -1,14 +1,6 @@
 #pragma once
 
-
-typedef struct tagInfoMation
-{
-	float fX;
-	float fY;
-	float fWidthX;
-	float fHeightY;
-
-}INFO;
+#ifndef __STRUCT_H__
 
 typedef struct tagLine
 {
@@ -20,16 +12,18 @@ typedef struct tagLine
 	{}
 }LINE;
 
-typedef struct tagFrame
-{
-	int iStartX;		
-	int iStartY;		
-	int iFrameCount;	
 
-	DWORD dwOldTime;
-	DWORD dwCurTime;
-	DWORD dwFrameSpeed;	
-}FRAME;
+
+typedef struct tagInfo
+{
+	float fX = 0.f;
+	float fY = 0.f;
+	float fCX = 0.f;
+	float fCY = 0.f;
+	float fWidthX;
+	float fHeightY;
+
+}INFO;
 
 typedef struct tagAniData
 {
@@ -38,6 +32,14 @@ typedef struct tagAniData
 	int iImageCount = 0;	// 이미지 수 
 	int iWarpWidth = 0;		// 이미지 간격
 
+	DWORD dwOldTime;
+	DWORD dwCurTime;
+	DWORD dwFrameSpeed;
 }AniData;
 
 
+
+
+#define __STRUCT_H__
+#endif
+#pragma once

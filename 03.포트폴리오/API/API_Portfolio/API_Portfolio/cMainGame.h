@@ -16,7 +16,11 @@ public:
 	void Update();
 	void Draw();
 	void Release();
+	///////////////////////////////////////////////
 
+	int					m_iFPS;
+	void				SetFPS(int FPS);
 
+	HDC	hBackBuffer;
 };
 
