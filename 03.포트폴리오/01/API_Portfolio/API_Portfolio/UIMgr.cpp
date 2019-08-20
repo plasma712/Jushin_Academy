@@ -14,23 +14,28 @@ CUIMgr::~CUIMgr()
 
 void CUIMgr::Initialize()
 {
-	m_pUIMgr_TopStatus = CMainGame::GetInstance()->GetResource()->Get(L"UIStatus_Top");
-	SetPlayerLife(2);
+	//m_pUIMgr_TopStatus = CMainGame::GetInstance()->GetResource()->Get(L"UIStatus_Top");
+	//SetPlayerLife(2);
 
-	m_pUIMgr_TopStageNumber = CMainGame::GetInstance()->GetResource()->Get(L"UI_Top_StageNumber");
-	
-	m_pUIMgr_Top_UIScore = CMainGame::GetInstance()->GetResource()->Get(L"UIScore_Top");
-	SetScroe(0);
+	//m_pUIMgr_TopStageNumber = CMainGame::GetInstance()->GetResource()->Get(L"UI_Top_StageNumber");
+	//
+	//m_pUIMgr_Top_UIScore = CMainGame::GetInstance()->GetResource()->Get(L"UIScore_Top");
+	//SetScroe(0);
 
 
-	m_pUIMgr_BottomSubEnergyBar = CMainGame::GetInstance()->GetResource()->Get(L"UISubEnergyBar");
-	SetEnergyBarLV(0);
+	//m_pUIMgr_BottomSubEnergyBar = CMainGame::GetInstance()->GetResource()->Get(L"UISubEnergyBar");
+	//SetEnergyBarLV(0);
 
-	m_pUIMgr_BottomBoom = CMainGame::GetInstance()->GetResource()->Get(L"UIBoom");
-	SetPlayerBoom(3);
+	//m_pUIMgr_BottomBoom = CMainGame::GetInstance()->GetResource()->Get(L"UIBoom");
+	//SetPlayerBoom(3);
 
-	m_pUIMgr_BottomSubEnergyBarGague = CMainGame::GetInstance()->GetResource()->Get(L"UISubEnergyBarGauge");
-	//SetEnergyBarGague(50);
+	//m_pUIMgr_BottomSubEnergyBarGague = CMainGame::GetInstance()->GetResource()->Get(L"UISubEnergyBarGauge");
+	////SetEnergyBarGague(50);
+
+	m_pUIMgr_PlayerHpFrame = CMainGame::GetInstance()->GetResource()->Get(L"HPBar");
+	m_pUIMgr_PlayerHp = CMainGame::GetInstance()->GetResource()->Get(L"CurrentHP");
+	m_pUIMgr_PlayerLife = CMainGame::GetInstance()->GetResource()->Get(L"life");
+	m_pUIMgr_PlayerHpDecrease = CMainGame::GetInstance()->GetResource()->Get(L"DecreaseHP");
 
 }
 
@@ -44,113 +49,51 @@ void CUIMgr::Render(HDC hDC)
 {
 	// Top
 
-	TransparentBlt(
+	TransparentBlt
+	(
 		hDC,
 		30,	// Rectangle로 보면 Left값
-		10,	// Rectangle로 보면 Bottom값
-		74, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
-		98, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
-		m_pUIMgr_TopStatus, // 이미지 불러오기
+		100,	// Rectangle로 보면 Bottom값
+		100, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
+		146, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
+		m_pUIMgr_PlayerHpFrame, // 이미지 불러오기
 		(GetPlayerLife()) * 74,  // m_iAniCount*m_AniData.iWarpWidth,
 		0,
-		74,	// 사진사이즈 X
-		98,	// 사진사이즈 Y
-		RGB(255, 255, 255) // 투명배경이라서 딱히 상관없음. 디폴트값으로 둠
+		100,	// 사진사이즈 X
+		146,	// 사진사이즈 Y
+		RGB(200, 0, 255) // 투명배경이라서 딱히 상관없음. 디폴트값으로 둠
 	);
-	TransparentBlt(
+
+	TransparentBlt
+	(
 		hDC,
-		350,	// Rectangle로 보면 Left값
-		10,	// Rectangle로 보면 Bottom값
-		68, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
-		48, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
-		m_pUIMgr_TopStageNumber, // 이미지 불러오기
+		57,	// Rectangle로 보면 Left값
+		105,										// 여기서 체력 단만큼 +해줌
+		14, 
+		90,											// 여기서 체력 단만큼 -해줌
+		m_pUIMgr_PlayerHp, // 이미지 불러오기
 		0,  // m_iAniCount*m_AniData.iWarpWidth,
 		0,
-		68,	// 사진사이즈 X
-		48,	// 사진사이즈 Y
-		RGB(255, 255, 255) // 투명배경이라서 딱히 상관없음. 디폴트값으로 둠
+		14,	// 사진사이즈 X
+		90,	// 사진사이즈 Y
+		RGB(200, 0, 255) // 투명배경이라서 딱히 상관없음. 디폴트값으로 둠
 	);
-	for (int Digits = 1; Digits < 7; Digits++)
-	{
-		TransparentBlt(
-			hDC,
-			300-(Digits*25),// Rectangle로 보면 Left값
-			20,	// Rectangle로 보면 Bottom값
-			25, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
-			25, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
-			m_pUIMgr_Top_UIScore, // 이미지 불러오기
-			0,  // m_iAniCount*m_AniData.iWarpWidth,
-			(GetScoreDigits(GetScore(),	Digits)) * 47,  // m_iAniCount*m_AniData.iWarpHeight
-			47,	// 사진사이즈 X
-			47,	// 사진사이즈 Y
-			RGB(255, 255, 255) // 투명배경이라서 딱히 상관없음. 디폴트값으로 둠
-		);
-	}
-	// Bottom
 
-	TransparentBlt(
+	TransparentBlt
+	(
 		hDC,
-		30,	// Rectangle로 보면 Left값
-		840,	// Rectangle로 보면 Bottom값
-		304, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
-		52, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
-		m_pUIMgr_BottomSubEnergyBar, // 이미지 불러오기
-		GetEnergyBarLV() * 304,  // m_iAniCount*m_AniData.iWarpWidth,
+		93.5,	// Rectangle로 보면 Left값
+		210,	// Rectangle로 보면 Bottom값
+		20, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
+		20, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
+		m_pUIMgr_PlayerLife, // 이미지 불러오기
+		32, // 목숨 여기서 체크 16 * 라이프
 		0,
-		304,	// 사진사이즈 X
-		52,	// 사진사이즈 Y
-		RGB(255, 255, 255) // 투명배경이라서 딱히 상관없음. 디폴트값으로 둠
-	);
-	TransparentBlt(
-		hDC,
-		335,	// Rectangle로 보면 Left값
-		840,	// Rectangle로 보면 Bottom값
-		64, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
-		64, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
-		m_pUIMgr_BottomBoom, // 이미지 불러오기
-		GetPlayerBoom() * 64,  // m_iAniCount*m_AniData.iWarpWidth,
-		0,
-		64,	// 사진사이즈 X
-		64,	// 사진사이즈 Y
-		RGB(255, 255, 255) // 투명배경이라서 딱히 상관없음. 디폴트값으로 둠
-	);
-	TransparentBlt(
-		hDC,
-		50,	// Rectangle로 보면 Left값
-		873, // Rectangle로 보면 Bottom값
-		GetEnergyBarGague()*2.76,//276, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
-		10, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
-		m_pUIMgr_BottomSubEnergyBarGague, // 이미지 불러오기
-		0,  // m_iAniCount*m_AniData.iWarpWidth,
-		0,
-		276,// 사진사이즈 X
-		10,	// 사진사이즈 Y
-		RGB(255, 255, 255) // 투명배경이라서 딱히 상관없음. 디폴트값으로 둠
+		16,	// 사진사이즈 X
+		16,	// 사진사이즈 Y
+		RGB(200, 0, 255) // 투명배경이라서 딱히 상관없음. 디폴트값으로 둠
 	);
 
-
-	//list<CGameObject*>::iterator iter_begin = m_pUIMgrLst.begin(); // auto begin_iter = l.begin()도 가능
-	//list<CGameObject*>::iterator iter_end = m_pUIMgrLst.end(); // auto end_iter = l.end()도 가능
-	//for (; iter_begin != iter_end; ++iter_end)
-	//{
-	//	TransparentBlt(
-	//		hDC,
-	//		30,	// Rectangle로 보면 Left값
-	//		10,	// Rectangle로 보면 Right값
-	//		74, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
-	//		98, // 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
-	//		(*iter_begin)->GetImage(), //m_pUIMgr_TopStatus->GetImage(), // 이미지 불러오기
-	//		(PlayerLife) * 74,  // m_iAniCount*m_AniData.iWarpWidth,
-	//		0,
-	//		74,	// 사진사이즈 X
-	//		98,	// 사진사이즈 Y
-	//		RGB(255, 255, 255) // 투명배경이라서 딱히 상관없음. 디폴트값으로 둠
-	//	);
-	//}
-
-
-	//BitBlt(hDC, 100, 0, 74, 98, m_pResourceMgr->Get(L"UIStatus_Top"), 0, 0, SRCCOPY);
-	//    (hDC,사진포지션X,사진포지션Y ,사진사이즈X ,사진사이즈 y)
 }
 
 void CUIMgr::Release()

@@ -15,6 +15,7 @@
 CPlayer::CPlayer()
 	:bInputable(false), m_ApperSpeed(15.f), m_bAnimationWorking(false), m_OffSetSpeed(10.f)
 	, m_DashCheck(false), m_Reinforce_Time(0.f), m_bReinforce(false), m_bIsJump(false), m_DashSpeedUp(false)
+	, m_fJumpForce(0.f), m_fJumpAcc(0.f), m_fGroundY(0.f)
 {
 }
 
@@ -61,6 +62,7 @@ void CPlayer::Initialize()
 	cLineEditer::GetInstance()->ReadData();
 	m_LineList = cLineEditer::GetInstance()->m_LineList;
 
+	m_fJumpForce = 20.f;
 }
 
 
@@ -75,7 +77,7 @@ void CPlayer::IsFrame()
 		if (m_DashCheck == true && m_Direction == true)
 		{
 			if (m_DashSpeedUp == false)
-				m_fSpeed *= 1.8f;
+				m_fSpeed *= 3.0f;
 
 			m_tInfo.fX += m_fSpeed;
 			m_DashSpeedUp = true;
@@ -83,7 +85,7 @@ void CPlayer::IsFrame()
 		if (m_DashCheck == true && m_Direction == false)
 		{
 			if (m_DashSpeedUp == false)
-				m_fSpeed *= 1.8f;
+				m_fSpeed *= 3.0f;
 
 			m_tInfo.fX -= m_fSpeed;
 			m_DashSpeedUp = true;
@@ -191,10 +193,10 @@ void CPlayer::IsAniMation()
 
 int CPlayer::Update()
 {
+	KeyInput();
+
 	IsAniMation();
 	IsFrame();
-
-	KeyInput();
 	IsJump();
 	IsOutRange();
 	OffSet();
@@ -232,17 +234,17 @@ void CPlayer::Release()
 
 CGameObject* CPlayer::CreateBullet()
 {
-	return CAbstractFactory<CBullet>::CreateObject(m_tInfo.fX, m_tInfo.fY, m_Direction);
+	return CAbstractFactory<CBullet>::CreateObject(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY, m_Direction);
 }
 
 CGameObject * CPlayer::CreateMiddleChargeBullet()
 {
-	return CAbstractFactory<cMiddleChargeBullet>::CreateObject(m_tInfo.fX, m_tInfo.fY, m_Direction);
+	return CAbstractFactory<cMiddleChargeBullet>::CreateObject(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY, m_Direction);
 }
 
 CGameObject * CPlayer::CreateFullChargeBullet()
 {
-	return CAbstractFactory<cFullChargeBullet>::CreateObject(m_tInfo.fX, m_tInfo.fY, m_Direction);
+	return CAbstractFactory<cFullChargeBullet>::CreateObject(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY, m_Direction);
 }
 
 void CPlayer::CreateBomb()
@@ -267,7 +269,7 @@ void CPlayer::KeyInput()
 		m_pKeyMgr->Update();
 	}
 
-	if (m_bAnimationWorking == false && bInputable == true) // 모든 애니메이션 끝나고 기본상태로 돌아가게 하기위함.
+	if (m_bAnimationWorking == false && bInputable == true && m_bIsJump==false) // 모든 애니메이션 끝나고 기본상태로 돌아가게 하기위함.
 	{
 		if (m_Direction == true)
 			m_CurState = IDLE_RIGHT;
@@ -344,14 +346,14 @@ void CPlayer::KeyInput()
 				BulletNumber = 4;
 
 
-			CEffectManager::CreatePlayerAttackEffect2(this->GetInfo().fX, this->GetInfo().fY, L"Charge");
+			CEffectManager::CreatePlayerAttackEffect2(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY, L"Charge");
 		}
 
 		while (m_Reinforce_CheckTime > 300 && m_Reinforce_Time >= 7)
 		{
-			CEffectManager::CreatePlayerAttackEffect(this->GetInfo().fX, this->GetInfo().fY, L"ChargeFull");
-			CEffectManager::CreatePlayerAttackEffect2(this->GetInfo().fX, this->GetInfo().fY, L"Charge");
-			CEffectManager::CreatePlayerAttackEffect2(this->GetInfo().fX, this->GetInfo().fY, L"ChargeFull11");
+			CEffectManager::CreatePlayerAttackEffect(this->GetInfo().fX- cScrollMgr::m_fScrollX, this->GetInfo().fY-cScrollMgr::m_fScrollY, L"ChargeFull");
+			CEffectManager::CreatePlayerAttackEffect2(this->GetInfo().fX- cScrollMgr::m_fScrollX, this->GetInfo().fY-cScrollMgr::m_fScrollY, L"Charge");
+			CEffectManager::CreatePlayerAttackEffect2(this->GetInfo().fX- cScrollMgr::m_fScrollX, this->GetInfo().fY-cScrollMgr::m_fScrollY, L"ChargeFull11");
 
 			m_Reinforce_Time++;
 			m_Reinforce_CheckTime -= 300;
@@ -389,6 +391,29 @@ void CPlayer::KeyInput()
 
 	}
 
+	if (m_pKeyMgr->KeyPressing(KEY_X))
+	{
+		m_bAnimationWorking = true;
+		m_bIsJump = true;
+		if (m_Direction == true)
+			m_CurState = JUMP_RIGHT;
+		else
+			m_CurState = JUMP_LEFT;
+	} 
+	
+	// 최대 높이 일때의 프레임을 맞춰두고, 
+	// 높이에 따르는 프레임 속도를 조절,
+	// m_blsJump는 건드리면 안되고, 대신 Grivaty를 건드려야함. 
+	
+
+
+
+	//if (m_pKeyMgr->KeyUp(KEY_X))
+	//{
+	//	if(m_AniData.iImageCount >=4)
+	//		m_bIsJump = false;
+	//}
+
 	if (m_pKeyMgr->KeyDown(KEY_Z))
 	{
 		m_bAnimationWorking = true;
@@ -396,11 +421,13 @@ void CPlayer::KeyInput()
 		{
 			//m_tInfo.fX += m_fSpeed*1.8f;
 			m_CurState = DASH_RIGHT;
+			CEffectManager::CreatePlayerAttackEffect(this->GetInfo().fX - cScrollMgr::m_fScrollX-100.f, this->GetInfo().fY - cScrollMgr::m_fScrollY+35.f, L"DashRightEffect");
 		}
 		else
 		{
 			//m_tInfo.fX -= m_fSpeed*1.8f;
 			m_CurState = DASH_LEFT;
+			CEffectManager::CreatePlayerAttackEffect(this->GetInfo().fX - cScrollMgr::m_fScrollX + 100.f, this->GetInfo().fY - cScrollMgr::m_fScrollY + 35.f, L"DashLeftEffect");
 		}
 	}
 }
@@ -419,24 +446,14 @@ void CPlayer::IsOutRange()
 
 void CPlayer::OffSet()
 {
-	if (WINCX / 2 + 200.f < m_tInfo.fX - cScrollMgr::m_fScrollX) // 이거문제있음.
+	if (WINCX / 2  < m_tInfo.fX - cScrollMgr::m_fScrollX) // 이거문제있음.
 	{
-		cScrollMgr::m_fScrollX += m_OffSetSpeed;
+		cScrollMgr::m_fScrollX += m_fSpeed;
 	}
 	if (WINCX / 2 - 300.f > m_tInfo.fX - cScrollMgr::m_fScrollX)
 	{
-		cScrollMgr::m_fScrollX -= m_OffSetSpeed;
+		cScrollMgr::m_fScrollX -= m_fSpeed;
 	}
-
-
-	//if (m_CurState == IDLE_RIGHT)
-	//{
-	//	if (m_tInfo.fX - cScrollMgr::m_fScrollX > 400) // 원하는대로... 400에 맞춘다기보단 뒤 오프셋에 맞추는느낌...
-	//	{
-	//		cScrollMgr::m_fScrollX += m_OffSetSpeed;
-	//	}
-	//}
-
 
 }
 
@@ -582,9 +599,6 @@ void CPlayer::vDASH_RIGHT()
 	m_DashCheck = true;
 }
 
-
-
-
 void CPlayer::vDASH_ATTACK_RIGHT()
 {
 }
@@ -595,6 +609,14 @@ void CPlayer::vDASH_STOP_RIGHT()
 
 void CPlayer::vJUMP_RIGHT()
 {
+	m_Image = CMainGame::GetInstance()->GetResource()->Get(L"PlayerJumpRight");
+	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerJumpRight");
+	m_CurState = JUMP_RIGHT;
+	m_PreState = m_CurState;
+
+	m_AniData.dwCurTime = GetTickCount();
+	m_AniData.dwOldTime = GetTickCount();
+	m_AniData.dwFrameSpeed = 60;
 }
 
 void CPlayer::vJUMP_ATTACK_RIGHT()
@@ -683,6 +705,14 @@ void CPlayer::vDASH_STOP_LEFT()
 
 void CPlayer::vJUMP_LEFT()
 {
+	m_Image = CMainGame::GetInstance()->GetResource()->Get(L"PlayerJumpLeft");
+	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerJumpLeft");
+	m_CurState = JUMP_LEFT;
+	m_PreState = m_CurState;
+
+	m_AniData.dwCurTime = GetTickCount();
+	m_AniData.dwOldTime = GetTickCount();
+	m_AniData.dwFrameSpeed = 60;
 }
 
 void CPlayer::vJUMP_ATTACK_LEFT()

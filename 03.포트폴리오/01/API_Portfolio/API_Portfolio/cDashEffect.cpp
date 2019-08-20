@@ -1,23 +1,23 @@
 #include "stdafx.h"
-#include "Effect.h"
+#include "cDashEffect.h"
 
 
-void CEffect::Dead()
-{
-	bDeadCheck = true;
-}
-
-CEffect::CEffect()
+cDashEffect::cDashEffect()
 	: bDeadCheck(false)
 {
 }
 
 
-CEffect::~CEffect()
+cDashEffect::~cDashEffect()
 {
 }
 
-void CEffect::Initialize()
+void cDashEffect::Dead()
+{
+	bDeadCheck = true;
+}
+
+void cDashEffect::Initialize()
 {
 	m_tInfo.fX = 0.f;
 	m_tInfo.fY = 0.f;
@@ -30,9 +30,10 @@ void CEffect::Initialize()
 
 
 	m_iAniCount = 0;
+
 }
 
-int CEffect::Update()
+int cDashEffect::Update()
 {
 	dwCurTime = GetTickCount();
 
@@ -47,11 +48,10 @@ int CEffect::Update()
 		return DEAD_OBJ;
 	}
 
-
 	return 0;
 }
 
-void CEffect::Render(HDC hDC)
+void cDashEffect::Render(HDC hDC)
 {
 	CGameObject::UpdateRect();
 	//TransparentBlt(hDC, m_tRect.left, m_tRect.top,m_tInfo.fCX, m_tInfo.fCY, m_Image, 0, 0, m_tInfo.fCX, m_tInfo.fCY, RGB(255, 255, 255));
@@ -74,6 +74,6 @@ void CEffect::Render(HDC hDC)
 
 }
 
-void CEffect::Release()
+void cDashEffect::Release()
 {
 }

@@ -35,6 +35,8 @@ public:
 	void			vSetBulletNumber(int _BulletNumber);
 	int				BulletNumber;
 
+	
+
 protected:
 	void			UpdateRect();
 

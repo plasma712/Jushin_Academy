@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "EffectManager.h"
 #include "Effect.h"
+#include "cChargeEffect.h"
+#include "cDashEffect.h"
 #include "Scene.h"
 
 
@@ -35,7 +37,7 @@ void CEffectManager::CreatePlayerAttackEffect(float x, float y, wstring name)
 	if (y > 800)
 		return;
 	CGameObject* pGameObject = nullptr;
-	pGameObject = CAbstractFactory<CEffect>::CreateObject();
+	pGameObject = CAbstractFactory<cChargeEffect>::CreateObject();
 	pGameObject->Initialize();
 	pGameObject->SetPos(x, y);
 	pGameObject->SetSprite(name);
@@ -47,7 +49,7 @@ void CEffectManager::CreatePlayerAttackEffect2(float x, float y, wstring name)
 	if (y > 800)
 		return;
 	CGameObject* pGameObject = nullptr;
-	pGameObject = CAbstractFactory<CEffect>::CreateObject();
+	pGameObject = CAbstractFactory<cChargeEffect>::CreateObject();
 	pGameObject->Initialize();
 	pGameObject->SetPos(x, y);
 	pGameObject->SetSprite(name);

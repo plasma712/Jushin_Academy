@@ -110,9 +110,9 @@ void CStage1Scene::Render()
 			pObject->Render(m_hDC);
 	}
 
-	//BitBlt(m_hDC, 0, 0, WINCX, WINCY, m_pResourceMgr->Get(L"Stage01_1"), m_iSceneScrolling, 0, SRCCOPY);
 
-	TransparentBlt(
+	TransparentBlt
+	(
 		m_hDC,
 		0,		
 		0,		
@@ -123,8 +123,10 @@ void CStage1Scene::Render()
 		0,
 		WINCX,								
 		WINCY,								
-		RGB(255, 255, 255)					
+		RGB(255, 255, 255)						//RGB(200,0,255)로 맞출껏
 	);
+
+	
 
 }
 

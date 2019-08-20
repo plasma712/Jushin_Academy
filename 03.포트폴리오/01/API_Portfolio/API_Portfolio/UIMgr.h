@@ -20,13 +20,19 @@ public:
 private:
 	int m_iFrame=3;
 
-	HDC	m_pUIMgr_TopStatus;
-	HDC	m_pUIMgr_TopStageNumber;
-	HDC	m_pUIMgr_BottomSubEnergyBar;
-	HDC	m_pUIMgr_BottomBoom;
-	HDC	m_pUIMgr_BottomSubEnergyBarGague;
+	//HDC	m_pUIMgr_TopStatus;
+	//HDC	m_pUIMgr_TopStageNumber;
+	//HDC	m_pUIMgr_BottomSubEnergyBar;
+	//HDC	m_pUIMgr_BottomBoom;
+	//HDC	m_pUIMgr_BottomSubEnergyBarGague;
 
-	HDC	m_pUIMgr_Top_UIScore;
+	//HDC	m_pUIMgr_Top_UIScore;
+
+	HDC		m_pUIMgr_PlayerHpFrame;
+	HDC		m_pUIMgr_PlayerHp;
+	HDC		m_pUIMgr_PlayerHpDecrease;
+	HDC		m_pUIMgr_PlayerLife;
+
 
 private:
 	CResourceManager*	m_pResourceMgr;

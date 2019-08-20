@@ -1,23 +1,23 @@
 #include "stdafx.h"
-#include "Effect.h"
+#include "cChargeEffect.h"
 
 
-void CEffect::Dead()
-{
-	bDeadCheck = true;
-}
-
-CEffect::CEffect()
+cChargeEffect::cChargeEffect()
 	: bDeadCheck(false)
 {
 }
 
 
-CEffect::~CEffect()
+cChargeEffect::~cChargeEffect()
 {
 }
 
-void CEffect::Initialize()
+void cChargeEffect::Dead()
+{
+	bDeadCheck = true;
+}
+
+void cChargeEffect::Initialize()
 {
 	m_tInfo.fX = 0.f;
 	m_tInfo.fY = 0.f;
@@ -32,7 +32,7 @@ void CEffect::Initialize()
 	m_iAniCount = 0;
 }
 
-int CEffect::Update()
+int cChargeEffect::Update()
 {
 	dwCurTime = GetTickCount();
 
@@ -51,7 +51,7 @@ int CEffect::Update()
 	return 0;
 }
 
-void CEffect::Render(HDC hDC)
+void cChargeEffect::Render(HDC hDC)
 {
 	CGameObject::UpdateRect();
 	//TransparentBlt(hDC, m_tRect.left, m_tRect.top,m_tInfo.fCX, m_tInfo.fCY, m_Image, 0, 0, m_tInfo.fCX, m_tInfo.fCY, RGB(255, 255, 255));
@@ -60,10 +60,10 @@ void CEffect::Render(HDC hDC)
 	TransparentBlt
 	(
 		hDC,
-		m_tRect.left,
-		m_tRect.top,
-		m_tInfo.fCX,
-		m_tInfo.fCY,
+		m_tRect.left - 40.f,
+		m_tRect.top  -35.f, 
+		m_tInfo.fCX*1.8f,
+		m_tInfo.fCY*1.8f,
 		m_Image,
 		m_iAniCount*m_AniData.iWarpWidth,
 		0,
@@ -71,9 +71,8 @@ void CEffect::Render(HDC hDC)
 		m_AniData.iHeight,
 		RGB(200, 0, 255)
 	);
-
 }
 
-void CEffect::Release()
+void cChargeEffect::Release()
 {
 }

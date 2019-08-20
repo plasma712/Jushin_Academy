@@ -11,5 +11,8 @@ public:
 	static void CreatePlayerAttackEffect(float x, float y, wstring name);
 	static void CreatePlayerAttackEffect2(float x, float y, wstring name);
 
+	///////////////////////////////////////////////////////////////////////////
+
+
 };
 
