@@ -103,25 +103,28 @@ void CStage1Scene::Render()
 {
 	m_iSceneScrolling = cScrollMgr::m_fScrollX;
 	BitBlt(m_hDC, 0, 0, WINCX, WINCY, m_pResourceMgr->Get(L"Stage01"), m_iSceneScrolling, 0, SRCCOPY);
-	//BitBlt(m_hDC, 0, 0, 800, 900, m_pResourceMgr->Get(L"Stage1"), 0, m_iSceneScrolling2, SRCCOPY);
 	
 	for (int i = 0; i < OBJECT_END; ++i)
 	{
 		for (auto& pObject : m_ObjLst[i])
 			pObject->Render(m_hDC);
 	}
-	//BitBlt
-	//(
-	//	m_hDC,
-	//	0,
-	//	0,
-	//	WINCX,
-	//	WINCY,
-	//	m_pResourceMgr->Get(L"Stage01_1"),
-	//	m_iSceneScrolling,
-	//	0,
-	//	SRCCOPY
-	//);
+
+	//BitBlt(m_hDC, 0, 0, WINCX, WINCY, m_pResourceMgr->Get(L"Stage01_1"), m_iSceneScrolling, 0, SRCCOPY);
+
+	TransparentBlt(
+		m_hDC,
+		0,		
+		0,		
+		WINCX,	
+		WINCY,	
+		m_pResourceMgr->Get(L"Stage01_1"),		// 이미지 불러오기
+		m_iSceneScrolling,
+		0,
+		WINCX,								
+		WINCY,								
+		RGB(255, 255, 255)					
+	);
 
 }
 

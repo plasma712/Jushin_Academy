@@ -419,13 +419,14 @@ void CPlayer::IsOutRange()
 
 void CPlayer::OffSet()
 {
-	if (WINCX / 2 < m_tInfo.fX - cScrollMgr::m_fScrollX)
+	if (WINCX / 2 + 200.f < m_tInfo.fX - cScrollMgr::m_fScrollX) // 이거문제있음.
 	{
-		cScrollMgr::m_fScrollX += m_fSpeed;
+		cScrollMgr::m_fScrollX += m_OffSetSpeed;
 	}
 	if (WINCX / 2 - 300.f > m_tInfo.fX - cScrollMgr::m_fScrollX)
-		cScrollMgr::m_fScrollX -= m_fSpeed;
-
+	{
+		cScrollMgr::m_fScrollX -= m_OffSetSpeed;
+	}
 
 
 	//if (m_CurState == IDLE_RIGHT)
@@ -438,6 +439,7 @@ void CPlayer::OffSet()
 
 
 }
+
 
 int CPlayer::GetEnergy()
 {
