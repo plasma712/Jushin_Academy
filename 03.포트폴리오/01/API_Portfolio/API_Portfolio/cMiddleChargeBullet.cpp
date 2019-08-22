@@ -30,7 +30,18 @@ void cMiddleChargeBullet::Initialize()
 int cMiddleChargeBullet::Update()
 {
 	if (m_bIsDead)
+	{
+		if (m_bDirection == false)
+			CEffectManager::CreatePlayerFullChargeBullet(this->GetInfo().fX, this->GetInfo().fY, L"PlayerBulletIdleEffectLeft", m_bDirection);
+		else
+			CEffectManager::CreatePlayerFullChargeBullet(this->GetInfo().fX, this->GetInfo().fY, L"PlayerBulletIdleEffectRight", m_bDirection);
+
 		return DEAD_OBJ;
+	}
+
+	if (m_bDead)
+		return DEAD_OBJ;
+
 
 	IsMoving();
 	IsOutRange();
@@ -104,7 +115,7 @@ void cMiddleChargeBullet::IsOutRange()
 		|| WINCX <= m_tRect.right 
 		|| WINCY <= m_tRect.bottom
 		)
-		m_bIsDead = true;
+		m_bDead = true;
 }
 
 void cMiddleChargeBullet::vFirstPoint()

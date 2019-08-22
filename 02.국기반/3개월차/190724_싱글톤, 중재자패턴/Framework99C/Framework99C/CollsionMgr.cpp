@@ -56,11 +56,11 @@ void CCollsionMgr::CollisionRectEX(const OBJLIST& dstLst, const OBJLIST& srcLst)
 				}
 				else
 				{
-					// X축 밀어내기
-					if (pDest->GetInfo().fX > fX)
-						pSource->SetPos(fX - fMoveX, fY);
-					else
-						pSource->SetPos(fX + fMoveX, fY);
+					//// X축 밀어내기
+					//if (pDest->GetInfo().fX > fX)
+					//	pSource->SetPos(fX - fMoveX, fY);
+					//else
+					//	pSource->SetPos(fX + fMoveX, fY);
 				}
 			}
 		}

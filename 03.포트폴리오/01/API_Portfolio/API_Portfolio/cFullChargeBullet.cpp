@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "cFullChargeBullet.h"
-
+#include "EffectManager.h"
 
 cFullChargeBullet::cFullChargeBullet()
 	:m_iFrame(5), FirstPoint(false)
@@ -29,7 +29,19 @@ void cFullChargeBullet::Initialize()
 int cFullChargeBullet::Update()
 {
 	if (m_bIsDead)
+	{
+		if(m_bDirection==false)
+			CEffectManager::CreatePlayerFullChargeBullet(this->GetInfo().fX , this->GetInfo().fY , L"PlayerBulletChargeEffectLeft",m_bDirection);
+		else
+			CEffectManager::CreatePlayerFullChargeBullet(this->GetInfo().fX , this->GetInfo().fY , L"PlayerBulletChargeEffectRight", m_bDirection);
+
+
 		return DEAD_OBJ;
+	}
+
+	if (m_bDead)
+		return DEAD_OBJ;
+
 
 	IsMoving();
 	IsOutRange();
@@ -100,7 +112,7 @@ void cFullChargeBullet::IsOutRange()
 		|| WINCX <= m_tRect.right
 		|| WINCY <= m_tRect.bottom
 		)
-		m_bIsDead = true;
+		m_bDead = true;
 }
 
 void cFullChargeBullet::vFirstPoint()

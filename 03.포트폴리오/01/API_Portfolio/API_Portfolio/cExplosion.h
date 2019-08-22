@@ -1,36 +1,32 @@
 #pragma once
 #include "GameObject.h"
-class CBullet :
+class cExplosion :
 	public CGameObject
 {
 public:
-	CBullet();
-	virtual ~CBullet();
+	cExplosion();
+	virtual ~cExplosion();
+
+public:
+	bool bDeadCheck;
+	void Dead();
+	///////////////////////////////////////////////////
+	DWORD dwCurTime;
+	DWORD dwOldTime;
+	DWORD dwFrameSpeed;
+	bool  m_Count;
 
 public:
 	// CGameObject을(를) 통해 상속됨
 	virtual void Initialize() override;
-	
+
 	virtual int Update() override;
+
 	virtual void Render(HDC hDC) override;
 
-private:
 	virtual void Release() override;
 
-private:
-	void IsMoving();
-	void IsOutRange();
 
-private:
-	int m_iFrame;
-	bool FirstPoint;
-
-	void vFirstPoint();
-
-public:
-	void vBulletImage();
-
-
-	bool m_bDead;
+	void	vRect();
 };
 

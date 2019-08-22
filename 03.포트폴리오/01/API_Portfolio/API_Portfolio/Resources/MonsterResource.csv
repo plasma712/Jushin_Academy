@@ -1,0 +1,8 @@
+GunmanRightIdle,./Resources/07.Monster/02.Gunman/01.Right/gunman_right_01.bmp,8
+GunmanRightWalk,./Resources/07.Monster/02.Gunman/01.Right/gunman_right_02.bmp,7
+GunmanRightGun,./Resources/07.Monster/02.Gunman/01.Right/gunman_right_03.bmp,4
+GunmanRightBomb,./Resources/07.Monster/02.Gunman/01.Right/gunman_right_04.bmp,7
+GunmanLeftIdle,./Resources/07.Monster/02.Gunman/02.Left/gunman_left_01.bmp,8
+GunmanLeftWalk,./Resources/07.Monster/02.Gunman/02.Left/gunman_left_02.bmp,7
+GunmanLeftGun,./Resources/07.Monster/02.Gunman/02.Left/gunman_left_03.bmp,4
+GunmanLeftBomb,./Resources/07.Monster/02.Gunman/02.Left/gunman_left_04.bmp,7

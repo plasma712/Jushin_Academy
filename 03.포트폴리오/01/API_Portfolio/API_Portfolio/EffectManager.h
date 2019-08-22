@@ -12,7 +12,9 @@ public:
 	static void CreatePlayerAttackEffect2(float x, float y, wstring name);
 
 	///////////////////////////////////////////////////////////////////////////
-
+	static void CreateMonsterDeadEffect(float x, float y, wstring name);
+	static void CreatePlayerIdleBullet(float x, float y, wstring name,bool Direction);
+	static void CreatePlayerFullChargeBullet(float x, float y, wstring name, bool Direction);
 
 };
 

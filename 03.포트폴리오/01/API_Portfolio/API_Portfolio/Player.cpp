@@ -10,7 +10,9 @@
 #include "Helper.h"
 #include "UIMgr.h"
 #include "BombAirplane.h"
-#include "UIMgr.h"
+//#include "UIMgr.h"
+
+float CPlayer::m_stSpeed = 0.f;
 
 CPlayer::CPlayer()
 	:bInputable(false), m_ApperSpeed(15.f), m_bAnimationWorking(false), m_OffSetSpeed(10.f)
@@ -63,6 +65,12 @@ void CPlayer::Initialize()
 	m_LineList = cLineEditer::GetInstance()->m_LineList;
 
 	m_fJumpForce = 20.f;
+
+
+	m_Reinforce_CheckTime = 0.f;
+	m_Reinforce_Time = 0.f;
+
+	WalkAttackCheck = false;
 }
 
 
@@ -92,6 +100,25 @@ void CPlayer::IsFrame()
 
 		}
 
+		if (WalkCheck == true && m_Direction == true&&WalkAttackCheck==true)
+		{
+			if (m_DashSpeedUp == false)
+				m_fSpeed *= 1.5f;
+
+			m_tInfo.fX += m_fSpeed;
+			m_DashSpeedUp = true;
+		}
+		if (WalkCheck == true && m_Direction == false && WalkAttackCheck == true)
+		{
+			if (m_DashSpeedUp == false)
+				m_fSpeed *= 1.5f;
+
+			m_tInfo.fX -= m_fSpeed;
+			m_DashSpeedUp = true;
+
+		}
+
+
 	}
 
 	if (m_iAniCount >= m_AniData.iImageCount)
@@ -110,6 +137,7 @@ void CPlayer::IsFrame()
 		m_bAnimationWorking = false;
 		m_fSpeed = 10.f;
 		m_DashSpeedUp = false;
+		WalkAttackCheck = false;
 	}
 }
 
@@ -193,10 +221,12 @@ void CPlayer::IsAniMation()
 
 int CPlayer::Update()
 {
+	m_stSpeed = m_fSpeed;
+
 	KeyInput();
+	IsFrame();
 
 	IsAniMation();
-	IsFrame();
 	IsJump();
 	IsOutRange();
 	OffSet();
@@ -229,7 +259,7 @@ void CPlayer::Render(HDC hDC)
 void CPlayer::Release()
 {
 	CEffectManager::CreateEffect(this->GetInfo());
-	CSoundManager::PlayMonsterDeadSound();
+	//CSoundManager::PlayMonsterDeadSound();
 }
 
 CGameObject* CPlayer::CreateBullet()
@@ -272,26 +302,33 @@ void CPlayer::KeyInput()
 	if (m_bAnimationWorking == false && bInputable == true && m_bIsJump==false) // 모든 애니메이션 끝나고 기본상태로 돌아가게 하기위함.
 	{
 		if (m_Direction == true)
+		{
 			m_CurState = IDLE_RIGHT;
+		}
 
-		if (m_Direction == false)
+		else
+		{
 			m_CurState = IDLE_LEFT;
+		}
 	}
 
 
-	if (m_pKeyMgr->KeyPressing(KEY_RIGHT))
+	if (m_pKeyMgr->KeyPressing(KEY_RIGHT)&&m_DashCheck==false&& WalkAttackCheck==false)
 	{
 		m_bAnimationWorking = true;
 		m_tInfo.fX += m_fSpeed;
 		m_Direction = true;
 		m_CurState = WALK_RIGHT;
+		WalkCheck = true;
 	}
-	if (m_pKeyMgr->KeyUp(KEY_RIGHT))
+	if (m_pKeyMgr->KeyUp(KEY_RIGHT)&& m_DashCheck == false)
 	{
 		m_CurState = IDLE_RIGHT; // 여기서 멈추는 애니메이션도 추가
+		WalkCheck = false;
+
 	}
 
-	if (m_pKeyMgr->KeyPressing(KEY_LEFT))
+	if (m_pKeyMgr->KeyPressing(KEY_LEFT)&&m_DashCheck == false)
 	{
 		if (WINCX / 2 - 250.f > m_tInfo.fX) // 여기서 뒤로 못가게 함.
 		{
@@ -305,28 +342,51 @@ void CPlayer::KeyInput()
 			m_tInfo.fX -= m_fSpeed;
 			m_Direction = false;
 			m_CurState = WALK_LEFT;
+			WalkCheck = true;
 		}
 	}
-	if (m_pKeyMgr->KeyUp(KEY_LEFT))
+
+	if (m_pKeyMgr->KeyUp(KEY_LEFT) && m_DashCheck == false)
 	{
 		m_CurState = IDLE_LEFT; // 여기서 멈추는 애니메이션도 추가
+		WalkCheck = false;
 	}
 
 	if (m_pKeyMgr->KeyDown(KEY_C))
 	{
-		m_bAnimationWorking = true;
-		if (m_Direction == true)
+
+		if (m_Direction == true&&WalkCheck==false)
 		{
 			m_CurState = IDLE_ATTACK_RIGHT;
 			BulletNumber = 0;
 			m_pBulletLst->push_back(CreateBullet());	//딜레이 넣기
 		}
-		else
+
+		if(m_Direction == false && WalkCheck == false)
 		{
 			m_CurState = IDLE_ATTACK_LEFT;
 			BulletNumber = 3;
 			m_pBulletLst->push_back(CreateBullet());    //딜레이 넣기
 		}
+
+		if (m_Direction == true && WalkCheck == true)
+		{
+			m_CurState = WALK_ATTACK_RIGHT;
+			BulletNumber = 0;
+			WalkAttackCheck = true;
+			m_pBulletLst->push_back(CreateBullet());	//딜레이 넣기
+		}
+		if (m_Direction == false && WalkCheck == true)
+		{
+			m_CurState = WALK_ATTACK_LEFT;
+			BulletNumber = 3;
+			WalkAttackCheck = true;
+			m_pBulletLst->push_back(CreateBullet());    //딜레이 넣기
+		}
+
+
+		m_bAnimationWorking = true;
+
 	}
 	if (m_pKeyMgr->KeyPressing(KEY_C)) // 여기서 이펙트 관리해야할듯. 차징...
 	{
@@ -335,7 +395,13 @@ void CPlayer::KeyInput()
 		m_Reinforce_CheckTime += m_Reinforce_dwCurTime - m_Reinforce_dwOldTime;
 		m_Reinforce_dwOldTime = m_Reinforce_dwCurTime;
 
-		while (m_Reinforce_CheckTime > 300 && m_Reinforce_Time < 7)
+		if (m_Reinforce_CheckTime > 300 && m_Reinforce_Time <= 3)
+		{
+			m_Reinforce_Time++;
+			m_Reinforce_CheckTime=0;
+		}
+
+		while (m_Reinforce_CheckTime > 300 && m_Reinforce_Time < 7&&m_Reinforce_Time>3)
 		{
 			m_Reinforce_Time++;
 			m_Reinforce_CheckTime -= 300;
@@ -369,19 +435,30 @@ void CPlayer::KeyInput()
 	{
 		if (m_Reinforce_Time > 2 && m_Reinforce_Time < 7)
 		{
-			if (m_Direction == true)
+			if (m_Direction == true&&WalkCheck==false)
 				m_CurState = IDLE_ATTACK_RIGHT;
-			else
+			if(m_Direction == false && WalkCheck == false)
 				m_CurState = IDLE_ATTACK_LEFT;
+			if (m_Direction == true && WalkCheck == true)
+				m_CurState = WALK_ATTACK_RIGHT;
+			if (m_Direction == false && WalkCheck == true)
+				m_CurState = WALK_ATTACK_LEFT;
 
 			m_pBulletLst->push_back(CreateMiddleChargeBullet());
 		}
+
 		if (m_Reinforce_Time >= 7)
 		{
-			if (m_Direction == true)
+			if (m_Direction == true && WalkCheck == false)
 				m_CurState = REINFORCE_ATTACK_RIGHT;
-			else
+			if (m_Direction == false && WalkCheck == false)
 				m_CurState = REINFORCE_ATTACK_LEFT;
+
+			if (m_Direction == true && WalkCheck == true)
+				m_CurState = WALK_ATTACK_RIGHT;
+			if (m_Direction == false && WalkCheck == true)
+				m_CurState = WALK_ATTACK_LEFT;
+
 
 			m_pBulletLst->push_back(CreateFullChargeBullet());
 		}
@@ -486,6 +563,7 @@ bool CPlayer::IsGround()
 	float y2 = pTarget->tRPoint.y - 50.f;
 
 	m_fGroundY = (y2 - y1) / (x2 - x1) * (m_tInfo.fX - x1) + y1;
+	
 
 	return true;
 }
@@ -529,6 +607,7 @@ void CPlayer::vIDLE_GAMESTART_RIGHT()
 	m_CurState = IDLE_GAMESTART_RIGHT;
 	m_PreState = m_CurState;
 
+	m_iAniCount = 0;
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
 	m_AniData.dwFrameSpeed = 60;
@@ -540,7 +619,7 @@ void CPlayer::vIDLE_RIGHT()
 	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerIdleRight");
 	m_CurState = IDLE_RIGHT;
 	m_PreState = m_CurState;
-
+	m_iAniCount = 0;
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
 	m_AniData.dwFrameSpeed = 100;
@@ -552,7 +631,7 @@ void CPlayer::vWALK_RIGHT()
 	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerWalkRight");
 	m_CurState = WALK_RIGHT;
 	m_PreState = m_CurState;
-
+	m_iAniCount = 0;
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
 	m_AniData.dwFrameSpeed = 60;
@@ -564,7 +643,7 @@ void CPlayer::vIDLE_ATTACK_RIGHT()
 	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerIdleAttackRight");
 	m_CurState = IDLE_ATTACK_RIGHT;
 	m_PreState = m_CurState;
-
+	m_iAniCount = 0;
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
 	m_AniData.dwFrameSpeed = 60;
@@ -576,14 +655,22 @@ void CPlayer::vREINFORCE_ATTACK_RIGHT()
 	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerReinForceAttackRight");
 	m_CurState = REINFORCE_ATTACK_RIGHT;
 	m_PreState = m_CurState;
-
+	m_iAniCount = 0;
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
-	m_AniData.dwFrameSpeed = 100;
+	m_AniData.dwFrameSpeed = 60;
 }
 
 void CPlayer::vWALK_ATTACK_RIGHT()
 {
+	m_Image = CMainGame::GetInstance()->GetResource()->Get(L"PlayerWalkAttackRight");
+	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerWalkAttackRight");
+	m_CurState = WALK_ATTACK_RIGHT;
+	m_PreState = m_CurState;
+	m_iAniCount = 0;
+	m_AniData.dwCurTime = GetTickCount();
+	m_AniData.dwOldTime = GetTickCount();
+	m_AniData.dwFrameSpeed = 60;
 }
 
 void CPlayer::vDASH_RIGHT()
@@ -592,7 +679,7 @@ void CPlayer::vDASH_RIGHT()
 	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerDashRight");
 	m_CurState = DASH_RIGHT;
 	m_PreState = m_CurState;
-
+	m_iAniCount = 0;
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
 	m_AniData.dwFrameSpeed = 45;
@@ -613,7 +700,7 @@ void CPlayer::vJUMP_RIGHT()
 	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerJumpRight");
 	m_CurState = JUMP_RIGHT;
 	m_PreState = m_CurState;
-
+	m_iAniCount = 0;
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
 	m_AniData.dwFrameSpeed = 60;
@@ -633,7 +720,7 @@ void CPlayer::vIDLE_LEFT()
 	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerIdleLeft");
 	m_CurState = IDLE_LEFT;
 	m_PreState = m_CurState;
-
+	m_iAniCount = 0;
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
 	m_AniData.dwFrameSpeed = 100;
@@ -646,7 +733,7 @@ void CPlayer::vWALK_LEFT()
 	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerWalkLeft");
 	m_CurState = WALK_LEFT;
 	m_PreState = m_CurState;
-
+	m_iAniCount = 0;
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
 	m_AniData.dwFrameSpeed = 60;
@@ -659,7 +746,7 @@ void CPlayer::vIDLE_ATTACK_LEFT()
 	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerIdleAttackLeft");
 	m_CurState = IDLE_ATTACK_LEFT;
 	m_PreState = m_CurState;
-
+	m_iAniCount = 0;
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
 	m_AniData.dwFrameSpeed = 60;
@@ -671,14 +758,22 @@ void CPlayer::vREINFORCE_ATTACK_LEFT()
 	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerReinForceAttackLeft");
 	m_CurState = REINFORCE_ATTACK_LEFT;
 	m_PreState = m_CurState;
-
+	m_iAniCount = 0;
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
-	m_AniData.dwFrameSpeed = 100;
+	m_AniData.dwFrameSpeed = 60;
 }
 
 void CPlayer::vWALK_ATTACK_LEFT()
 {
+	m_Image = CMainGame::GetInstance()->GetResource()->Get(L"PlayerWalkAttackLeft");
+	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerWalkAttackLeft");
+	m_CurState = WALK_ATTACK_LEFT;
+	m_PreState = m_CurState;
+	m_iAniCount = 0;
+	m_AniData.dwCurTime = GetTickCount();
+	m_AniData.dwOldTime = GetTickCount();
+	m_AniData.dwFrameSpeed = 60;
 }
 
 void CPlayer::vDASH_LEFT()
@@ -687,7 +782,7 @@ void CPlayer::vDASH_LEFT()
 	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerDashLeft");
 	m_CurState = DASH_LEFT;
 	m_PreState = m_CurState;
-
+	m_iAniCount = 0;
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
 	m_AniData.dwFrameSpeed = 60;
@@ -709,7 +804,7 @@ void CPlayer::vJUMP_LEFT()
 	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerJumpLeft");
 	m_CurState = JUMP_LEFT;
 	m_PreState = m_CurState;
-
+	m_iAniCount = 0;
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
 	m_AniData.dwFrameSpeed = 60;

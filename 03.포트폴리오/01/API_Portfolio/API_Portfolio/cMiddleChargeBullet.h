@@ -22,5 +22,8 @@ private:
 	bool FirstPoint;
 
 	void vFirstPoint();
+
+	bool m_bDead;
+
 };
 

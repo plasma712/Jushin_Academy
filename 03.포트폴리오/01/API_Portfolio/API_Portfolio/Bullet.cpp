@@ -32,6 +32,16 @@ void CBullet::Initialize()
 int CBullet::Update()
 {
 	if (m_bIsDead)
+	{
+		if (m_bDirection == false)
+			CEffectManager::CreatePlayerFullChargeBullet(this->GetInfo().fX, this->GetInfo().fY, L"PlayerBulletIdleEffectLeft", m_bDirection);
+		else
+			CEffectManager::CreatePlayerFullChargeBullet(this->GetInfo().fX, this->GetInfo().fY, L"PlayerBulletIdleEffectRight", m_bDirection);
+
+		return DEAD_OBJ;
+	}
+
+	if (m_bDead)
 		return DEAD_OBJ;
 
 	IsMoving();
@@ -104,7 +114,7 @@ void CBullet::IsOutRange()
 
 	if (0 >= m_tRect.left || 0 >= m_tRect.top
 		|| WINCX <= m_tRect.right || WINCY <= m_tRect.bottom)
-		m_bIsDead = true;
+		m_bDead = true;
 }
 
 void CBullet::vFirstPoint()

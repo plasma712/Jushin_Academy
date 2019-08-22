@@ -1,36 +1,24 @@
 #pragma once
 #include "GameObject.h"
-class CBullet :
+class cPlayerIdleBulletEffect :
 	public CGameObject
 {
 public:
-	CBullet();
-	virtual ~CBullet();
-
+	bool bDeadCheck;
+	void Dead();
+	///////////////////////////////////////////////////
+	DWORD dwCurTime;
+	DWORD dwOldTime;
+	DWORD dwFrameSpeed;
+	bool  m_Count;
 public:
+	cPlayerIdleBulletEffect();
+	virtual ~cPlayerIdleBulletEffect();
+
 	// CGameObject을(를) 통해 상속됨
 	virtual void Initialize() override;
-	
 	virtual int Update() override;
 	virtual void Render(HDC hDC) override;
-
-private:
 	virtual void Release() override;
-
-private:
-	void IsMoving();
-	void IsOutRange();
-
-private:
-	int m_iFrame;
-	bool FirstPoint;
-
-	void vFirstPoint();
-
-public:
-	void vBulletImage();
-
-
-	bool m_bDead;
 };
 

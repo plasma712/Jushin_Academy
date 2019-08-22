@@ -60,6 +60,9 @@ private:
 
 	float	   BulletNumber;
 
+	bool	   WalkCheck;
+	bool	   WalkAttackCheck;
+
 	DWORD	   m_Reinforce_dwOldTime;
 	DWORD	   m_Reinforce_dwCurTime;
 	DWORD      m_Reinforce_CheckTime;
@@ -74,6 +77,8 @@ public:
 	bool		m_bIsJump;
 	float		m_fJumpForce;
 	float		m_fJumpAcc;
+public:
+	static float  m_stSpeed;
 
 #pragma region 애니메이션함수
 

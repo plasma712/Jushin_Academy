@@ -46,3 +46,4 @@ using std::unordered_map;
 #include "KeyManager.h"
 #include "cScrollMgr.h"
 #include "cLineEditer.h"
+#include "Player.h"

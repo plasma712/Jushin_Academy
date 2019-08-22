@@ -81,6 +81,39 @@ void CCollisionManager::CollisionSphereToMonster(const OBJLIST & dstLst, const O
 
 void CCollisionManager::CollisionPlayerTerrain(const OBJLIST & _Player, const OBJLIST & _Terrain)
 {
+	float fMoveX = 0.f, fMoveY = 0.f;
+
+	for (auto& pDest : _Terrain)
+	{
+		for (auto& pSource : _Player)
+		{
+			if (CheckRect(pDest, pSource, &fMoveX, &fMoveY))
+			{
+				float fX = pSource->GetInfo().fX;
+				float fY = pSource->GetInfo().fY;
+
+				if (fMoveX > fMoveY) // 파고든 깊이가 짧은 쪽으로 밀어낼 것.
+				{
+					// Y축 밀어내기
+					if (pDest->GetInfo().fY > fY)
+					{
+						// 위로 밀어낼 것.						
+						pSource->SetPos(fX, fY - fMoveY);
+					}
+					else
+						pSource->SetPos(fX, fY + fMoveY);
+				}
+				else
+				{
+					//// X축 밀어내기
+					//if (pDest->GetInfo().fX > fX)
+					//	pSource->SetPos(fX - fMoveX, fY);
+					//else
+					//	pSource->SetPos(fX + fMoveX, fY);
+				}
+			}
+		}
+	}
 }
 
 

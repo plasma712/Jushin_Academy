@@ -85,14 +85,14 @@ const int CMonster::GetProgress()
 
 void CMonster::SetDamaged()
 {
-	CSoundManager::PlayMonsterDeadSound();
+	//CSoundManager::PlayMonsterDeadSound();
 
-	CGameObject* pUIMgr = CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_UI].front();
-	dynamic_cast<CUIMgr*>(pUIMgr)->SetScroe(100);
+	//CGameObject* pUIMgr = CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_UI].front();
+	//dynamic_cast<CUIMgr*>(pUIMgr)->SetScroe(100);
 
-	CEffectManager::CreateEffect(this->GetInfo());
+	//CEffectManager::CreateEffect(this->GetInfo());
 
-	CreateItem();
+	//CreateItem();
 	SetDead(true);
 }
 
@@ -104,8 +104,8 @@ void CMonster::IsMoving()
 
 void CMonster::IsOutRange()
 {
-	if (m_tInfo.fX > 1100 || m_tInfo.fX < -100 || m_tInfo.fY > 900 || m_tInfo.fX < -100)
-		SetDead(true);
+	//if (m_tInfo.fX > 1100 || m_tInfo.fX < -100 || m_tInfo.fY > 900 || m_tInfo.fX < -100)
+	//	SetDead(true);
 
 }
 
