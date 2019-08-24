@@ -15,7 +15,7 @@ cRolling::~cRolling()
 void cRolling::Initialize()
 {
 	m_iCount = 0;
-	//m_CurState = ROLLING_IDLE_RIGHT;
+	m_CurState = ROLLING_IDLE_LEFT;
 	m_PreState = m_CurState;
 
 	m_AniData.dwCurTime = GetTickCount();
@@ -23,8 +23,8 @@ void cRolling::Initialize()
 	m_AniData.dwFrameSpeed = 60;
 
 
-	m_Image = CMainGame::GetInstance()->GetResource()->Get(L"RollingRightIdle");
-	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"RollingRightIdle");
+	m_Image = CMainGame::GetInstance()->GetResource()->Get(L"RollingLeftIdle");
+	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"RollingLeftIdle");
 
 
 
@@ -43,7 +43,7 @@ int cRolling::Update()
 {
 	if (m_bIsDead)
 	{
-		CEffectManager::CreateMonsterDeadEffect(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY, L"MonsterDeadEffect");
+		CEffectManager::CreateMonsterDeadEffect(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY+20, L"MonsterDeadEffect");
 		return DEAD_OBJ;
 	}
 

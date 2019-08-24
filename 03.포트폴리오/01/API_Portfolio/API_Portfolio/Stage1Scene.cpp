@@ -42,7 +42,8 @@ void CStage1Scene::Initialize()
 
 	for (int k = 3; k < 10; k++)
 	{
-		pGameObject = CAbstractFactory<cRolling>::CreateObject(k*200+400,300);
+		pGameObject = CAbstractFactory<cGunman>::CreateObject(k*200+400,300);
+		dynamic_cast<cGunman*>(pGameObject)->SetBulletLst(&m_ObjLst[OBJECT_MONSTER_BULLET]);
 		m_ObjLst[OBJECT_MONSTER].push_back(pGameObject);
 	}
 

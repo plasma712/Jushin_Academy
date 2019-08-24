@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "cGunman.h"
 #include "EffectManager.h"
-
+#include "MainGame.h"
+#include "Scene.h"
+#include "cGunManBullet.h"
 
 cGunman::cGunman()
 	: m_fJumpForce(0.f), m_fJumpAcc(0.f), m_fGroundY(0.f), m_bIsJump(false)
@@ -12,6 +14,8 @@ cGunman::cGunman()
 cGunman::~cGunman()
 {
 }
+
+
 
 void cGunman::Initialize()
 {
@@ -38,10 +42,17 @@ void cGunman::Initialize()
 	m_fSpeed = 10.f;
 	m_bAnimationWorking = false;
 	m_iAniCount = 0;
+
+	m_Direction = false;
 }
 
 int cGunman::Update()
 {
+	PlayerX = CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_PLAYER].front()->GetInfo().fX;
+	PlayerY = CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_PLAYER].front()->GetInfo().fY;
+	MonsterX = m_tInfo.fX;
+	MonsterY = m_tInfo.fY;
+
 	if (m_bIsDead)
 	{
 		CEffectManager::CreateMonsterDeadEffect(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY, L"MonsterDeadEffect");
@@ -90,6 +101,15 @@ void cGunman::IsFrame()
 	{
 		m_iAniCount++;
 		m_AniData.dwOldTime = m_AniData.dwCurTime;
+		//CreateGunManBullet();
+
+		if (m_iAniCount==2)
+		{
+			if (m_CurState == GUNMAN_ATTACK_RIGHT)
+			{
+				m_pBulletLst->push_back(CreateGunManBullet());
+			}
+		}
 	}
 
 	if (m_iAniCount >= m_AniData.iImageCount)
@@ -101,28 +121,31 @@ void cGunman::IsFrame()
 
 void cGunman::IsAniMation()
 {
-	if (m_PreState != m_CurState)
+	if (m_bAnimationWorking)
 	{
-		switch (m_CurState)
+		if (m_PreState != m_CurState)
 		{
-		case GUNMAN_IDLE_RIGHT:
-			vIDLE_RIGHT();
-			break;
-		case GUNMAN_IDLE_LEFT:
-			vIDLE_LEFT();
-			break;
-		case GUNMAN_IDLE_WALK_RIGHT:
-			vIDLE_WALK_LEFT();
-			break;
-		case GUNMAN_IDLE_WALK_LEFT:
-			vIDLE_WALK_LEFT();
-			break;
-		case GUNMAN_ATTACK_RIGHT:
-			vATTACK_RIGHT();
-			break;
-		case GUNMAN_ATTACK_LEFT:
-			vATTACK_LEFT();
-			break;
+			switch (m_CurState)
+			{
+			case GUNMAN_IDLE_RIGHT:
+				vIDLE_RIGHT();
+				break;
+			case GUNMAN_IDLE_LEFT:
+				vIDLE_LEFT();
+				break;
+			case GUNMAN_IDLE_WALK_RIGHT:
+				vIDLE_WALK_LEFT();
+				break;
+			case GUNMAN_IDLE_WALK_LEFT:
+				vIDLE_WALK_LEFT();
+				break;
+			case GUNMAN_ATTACK_RIGHT:
+				vATTACK_RIGHT();
+				break;
+			case GUNMAN_ATTACK_LEFT:
+				vATTACK_LEFT();
+				break;
+			}
 		}
 	}
 }
@@ -133,6 +156,10 @@ void cGunman::vGunManFSM()
 	{
 		m_CurState = GUNMAN_IDLE_RIGHT;
 		m_bAnimationWorking = true;
+	}
+	if (MonsterX- PlayerX <300)
+	{
+		m_CurState = GUNMAN_ATTACK_RIGHT;
 	}
 }
 
@@ -197,6 +224,17 @@ void cGunman::GunManRect()
 	m_tRect.bottom = static_cast<LONG>(m_tInfo.fY + m_tInfo.fCY * 0.5f - cScrollMgr::m_fScrollY);
 }
 
+CGameObject * cGunman::CreateGunManBullet()
+{
+	return CAbstractFactory<cGunManBullet>::CreateObject(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY, m_Direction);
+}
+
+void cGunman::SetBulletLst(OBJLIST * pBulletLst)
+{
+	m_pBulletLst = pBulletLst;
+}
+
+
 #pragma region 애니메이션함수
 
 void cGunman::vIDLE_RIGHT()
@@ -260,7 +298,7 @@ void cGunman::vATTACK_RIGHT()
 
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
-	m_AniData.dwFrameSpeed = 100;
+	m_AniData.dwFrameSpeed = 200;
 
 }
 
@@ -273,7 +311,7 @@ void cGunman::vATTACK_LEFT()
 
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
-	m_AniData.dwFrameSpeed = 100;
+	m_AniData.dwFrameSpeed = 200;
 
 }
 #pragma endregion

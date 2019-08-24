@@ -29,5 +29,11 @@ protected:
 private:
 	int				m_iProgress;
 
+
+public:
+	float PlayerX;
+	float PlayerY;
+	float MonsterX;
+	float MonsterY;
 };
 

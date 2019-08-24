@@ -25,6 +25,10 @@ private:
 	CGameObject*	CreateBullet();
 	CGameObject*	CreateMiddleChargeBullet();
 	CGameObject*	CreateFullChargeBullet();
+	CGameObject*	CreateBullet(float _x,float _y);
+	CGameObject*	CreateMiddleChargeBullet(float _x, float _y);
+	CGameObject*	CreateFullChargeBullet(float _x, float _y);
+
 	void			CreateBomb();
 	void			KeyInput();
 	void			IsOutRange();

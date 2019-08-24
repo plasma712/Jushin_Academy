@@ -7,6 +7,8 @@
 #include "SoundManager.h"
 #include "UIMgr.h"
 #include "Item.h"
+#include "MainGame.h"
+
 CMonster::CMonster()
 {
 }

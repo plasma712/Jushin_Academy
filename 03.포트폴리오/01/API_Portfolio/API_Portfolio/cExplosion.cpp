@@ -26,7 +26,7 @@ void cExplosion::Initialize()
 
 	dwCurTime = GetTickCount();
 	dwOldTime = GetTickCount();
-	dwFrameSpeed = 40;
+	dwFrameSpeed = 10;
 
 
 	m_iAniCount = 0;

@@ -27,12 +27,17 @@ public:
 	float		m_fJumpForce;
 	float		m_fJumpAcc;
 
+	bool		m_Direction;
+
 	bool		IsGround();
 	void		IsJump();
 
 	void		GunManRect();
 
 
+	CGameObject* CreateGunManBullet();
+	OBJLIST*		m_pBulletLst;
+	void SetBulletLst(OBJLIST* pBulletLst);
 
 #pragma region 애니메이션함수
 

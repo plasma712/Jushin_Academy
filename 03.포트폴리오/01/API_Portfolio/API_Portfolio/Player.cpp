@@ -10,6 +10,7 @@
 #include "Helper.h"
 #include "UIMgr.h"
 #include "BombAirplane.h"
+
 //#include "UIMgr.h"
 
 float CPlayer::m_stSpeed = 0.f;
@@ -99,26 +100,6 @@ void CPlayer::IsFrame()
 			m_DashSpeedUp = true;
 
 		}
-
-		if (WalkCheck == true && m_Direction == true&&WalkAttackCheck==true)
-		{
-			if (m_DashSpeedUp == false)
-				m_fSpeed *= 1.5f;
-
-			m_tInfo.fX += m_fSpeed;
-			m_DashSpeedUp = true;
-		}
-		if (WalkCheck == true && m_Direction == false && WalkAttackCheck == true)
-		{
-			if (m_DashSpeedUp == false)
-				m_fSpeed *= 1.5f;
-
-			m_tInfo.fX -= m_fSpeed;
-			m_DashSpeedUp = true;
-
-		}
-
-
 	}
 
 	if (m_iAniCount >= m_AniData.iImageCount)
@@ -277,6 +258,21 @@ CGameObject * CPlayer::CreateFullChargeBullet()
 	return CAbstractFactory<cFullChargeBullet>::CreateObject(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY, m_Direction);
 }
 
+CGameObject * CPlayer::CreateBullet(float _x, float _y)
+{
+	return CAbstractFactory<CBullet>::CreateObject(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY - _y, m_Direction);
+}
+
+CGameObject * CPlayer::CreateMiddleChargeBullet(float _x, float _y)
+{
+	return CAbstractFactory<cMiddleChargeBullet>::CreateObject(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY - _y, m_Direction);
+}
+
+CGameObject * CPlayer::CreateFullChargeBullet(float _x, float _y)
+{
+	return CAbstractFactory<cFullChargeBullet>::CreateObject(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY - _y, m_Direction);
+}
+
 void CPlayer::CreateBomb()
 {
 	if (CBombAirplane::m_ibombCount != 0)
@@ -299,13 +295,12 @@ void CPlayer::KeyInput()
 		m_pKeyMgr->Update();
 	}
 
-	if (m_bAnimationWorking == false && bInputable == true && m_bIsJump==false) // 모든 애니메이션 끝나고 기본상태로 돌아가게 하기위함.
+	if (m_bAnimationWorking == false && bInputable == true && m_bIsJump == false) // 모든 애니메이션 끝나고 기본상태로 돌아가게 하기위함.
 	{
 		if (m_Direction == true)
 		{
 			m_CurState = IDLE_RIGHT;
 		}
-
 		else
 		{
 			m_CurState = IDLE_LEFT;
@@ -313,7 +308,7 @@ void CPlayer::KeyInput()
 	}
 
 
-	if (m_pKeyMgr->KeyPressing(KEY_RIGHT)&&m_DashCheck==false&& WalkAttackCheck==false)
+	if (m_pKeyMgr->KeyPressing(KEY_RIGHT) && m_DashCheck == false && WalkAttackCheck == false)
 	{
 		m_bAnimationWorking = true;
 		m_tInfo.fX += m_fSpeed;
@@ -321,14 +316,20 @@ void CPlayer::KeyInput()
 		m_CurState = WALK_RIGHT;
 		WalkCheck = true;
 	}
-	if (m_pKeyMgr->KeyUp(KEY_RIGHT)&& m_DashCheck == false)
+
+	if (m_pKeyMgr->KeyPressing(KEY_RIGHT) && m_DashCheck == false && WalkAttackCheck == true)
+	{
+		m_tInfo.fX += m_fSpeed;
+	}
+
+	if (m_pKeyMgr->KeyUp(KEY_RIGHT) && m_DashCheck == false)
 	{
 		m_CurState = IDLE_RIGHT; // 여기서 멈추는 애니메이션도 추가
 		WalkCheck = false;
 
 	}
 
-	if (m_pKeyMgr->KeyPressing(KEY_LEFT)&&m_DashCheck == false)
+	if (m_pKeyMgr->KeyPressing(KEY_LEFT) && m_DashCheck == false && WalkAttackCheck == false)
 	{
 		if (WINCX / 2 - 250.f > m_tInfo.fX) // 여기서 뒤로 못가게 함.
 		{
@@ -346,6 +347,13 @@ void CPlayer::KeyInput()
 		}
 	}
 
+	if (m_pKeyMgr->KeyPressing(KEY_LEFT) && m_DashCheck == false && WalkAttackCheck == true)
+	{
+		m_tInfo.fX -= m_fSpeed;
+	}
+
+
+
 	if (m_pKeyMgr->KeyUp(KEY_LEFT) && m_DashCheck == false)
 	{
 		m_CurState = IDLE_LEFT; // 여기서 멈추는 애니메이션도 추가
@@ -355,34 +363,49 @@ void CPlayer::KeyInput()
 	if (m_pKeyMgr->KeyDown(KEY_C))
 	{
 
-		if (m_Direction == true&&WalkCheck==false)
+		if (m_Direction == true && WalkCheck == false && m_DashCheck == false)
 		{
 			m_CurState = IDLE_ATTACK_RIGHT;
 			BulletNumber = 0;
 			m_pBulletLst->push_back(CreateBullet());	//딜레이 넣기
 		}
 
-		if(m_Direction == false && WalkCheck == false)
+		if (m_Direction == false && WalkCheck == false && m_DashCheck == false)
 		{
 			m_CurState = IDLE_ATTACK_LEFT;
 			BulletNumber = 3;
 			m_pBulletLst->push_back(CreateBullet());    //딜레이 넣기
 		}
 
-		if (m_Direction == true && WalkCheck == true)
+		if (m_Direction == true && WalkCheck == true &&m_DashCheck==false)
 		{
 			m_CurState = WALK_ATTACK_RIGHT;
 			BulletNumber = 0;
 			WalkAttackCheck = true;
 			m_pBulletLst->push_back(CreateBullet());	//딜레이 넣기
 		}
-		if (m_Direction == false && WalkCheck == true)
+		if (m_Direction == false && WalkCheck == true && m_DashCheck == false)
 		{
 			m_CurState = WALK_ATTACK_LEFT;
 			BulletNumber = 3;
 			WalkAttackCheck = true;
 			m_pBulletLst->push_back(CreateBullet());    //딜레이 넣기
 		}
+
+		if (m_Direction == true && m_DashCheck == true )
+		{
+			m_CurState = DASH_ATTACK_RIGHT;
+			BulletNumber = 0;
+			m_pBulletLst->push_back(CreateBullet(0,-30));	//딜레이 넣기
+		}
+
+		if (m_Direction == false && m_DashCheck == true)
+		{
+			m_CurState = DASH_ATTACK_LEFT;
+			BulletNumber = 0;
+			m_pBulletLst->push_back(CreateBullet(0, -30));	//딜레이 넣기
+		}
+
 
 
 		m_bAnimationWorking = true;
@@ -398,10 +421,10 @@ void CPlayer::KeyInput()
 		if (m_Reinforce_CheckTime > 300 && m_Reinforce_Time <= 3)
 		{
 			m_Reinforce_Time++;
-			m_Reinforce_CheckTime=0;
+			m_Reinforce_CheckTime = 0;
 		}
 
-		while (m_Reinforce_CheckTime > 300 && m_Reinforce_Time < 7&&m_Reinforce_Time>3)
+		while (m_Reinforce_CheckTime > 300 && m_Reinforce_Time < 7 && m_Reinforce_Time>3)
 		{
 			m_Reinforce_Time++;
 			m_Reinforce_CheckTime -= 300;
@@ -417,9 +440,9 @@ void CPlayer::KeyInput()
 
 		while (m_Reinforce_CheckTime > 300 && m_Reinforce_Time >= 7)
 		{
-			CEffectManager::CreatePlayerAttackEffect(this->GetInfo().fX- cScrollMgr::m_fScrollX, this->GetInfo().fY-cScrollMgr::m_fScrollY, L"ChargeFull");
-			CEffectManager::CreatePlayerAttackEffect2(this->GetInfo().fX- cScrollMgr::m_fScrollX, this->GetInfo().fY-cScrollMgr::m_fScrollY, L"Charge");
-			CEffectManager::CreatePlayerAttackEffect2(this->GetInfo().fX- cScrollMgr::m_fScrollX, this->GetInfo().fY-cScrollMgr::m_fScrollY, L"ChargeFull11");
+			CEffectManager::CreatePlayerAttackEffect(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY, L"ChargeFull");
+			CEffectManager::CreatePlayerAttackEffect2(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY, L"Charge");
+			CEffectManager::CreatePlayerAttackEffect2(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY, L"ChargeFull11");
 
 			m_Reinforce_Time++;
 			m_Reinforce_CheckTime -= 300;
@@ -435,16 +458,44 @@ void CPlayer::KeyInput()
 	{
 		if (m_Reinforce_Time > 2 && m_Reinforce_Time < 7)
 		{
-			if (m_Direction == true&&WalkCheck==false)
+			if (m_Direction == true && WalkCheck == false)
 				m_CurState = IDLE_ATTACK_RIGHT;
-			if(m_Direction == false && WalkCheck == false)
+			if (m_Direction == false && WalkCheck == false)
 				m_CurState = IDLE_ATTACK_LEFT;
-			if (m_Direction == true && WalkCheck == true)
-				m_CurState = WALK_ATTACK_RIGHT;
-			if (m_Direction == false && WalkCheck == true)
-				m_CurState = WALK_ATTACK_LEFT;
+			//if (m_Direction == true && WalkCheck == true)
+			//	m_CurState = WALK_ATTACK_RIGHT;
+			//if (m_Direction == false && WalkCheck == true)
+			//	m_CurState = WALK_ATTACK_LEFT;
 
-			m_pBulletLst->push_back(CreateMiddleChargeBullet());
+
+			if (m_Direction == true && WalkCheck == true)
+			{
+				m_CurState = WALK_ATTACK_RIGHT;
+				BulletNumber = 0;
+				WalkAttackCheck = true;
+			}
+			if (m_Direction == false && WalkCheck == true)
+			{
+				m_CurState = WALK_ATTACK_LEFT;
+				BulletNumber = 3;
+				WalkAttackCheck = true;
+			}
+
+			if (m_Direction == false && m_DashCheck == true)
+			{
+				m_CurState = DASH_ATTACK_LEFT;
+				BulletNumber = 0;
+			}
+			if (m_Direction == true && m_DashCheck == true)
+			{
+				m_CurState = DASH_ATTACK_RIGHT;
+				BulletNumber = 0;
+			}
+			if (m_DashCheck == true)
+				m_pBulletLst->push_back(CreateMiddleChargeBullet(0, -30));
+
+			else
+				m_pBulletLst->push_back(CreateMiddleChargeBullet());
 		}
 
 		if (m_Reinforce_Time >= 7)
@@ -454,14 +505,37 @@ void CPlayer::KeyInput()
 			if (m_Direction == false && WalkCheck == false)
 				m_CurState = REINFORCE_ATTACK_LEFT;
 
+
 			if (m_Direction == true && WalkCheck == true)
+			{
 				m_CurState = WALK_ATTACK_RIGHT;
+				BulletNumber = 0;
+				WalkAttackCheck = true;
+			}
 			if (m_Direction == false && WalkCheck == true)
+			{
 				m_CurState = WALK_ATTACK_LEFT;
+				BulletNumber = 3;
+				WalkAttackCheck = true;
+			}
 
+			if (m_Direction == false && m_DashCheck == true)
+			{
+				m_CurState = DASH_ATTACK_LEFT;
+				BulletNumber = 0;
+			}
+			if (m_Direction == true && m_DashCheck == true)
+			{
+				m_CurState = DASH_ATTACK_RIGHT;
+				BulletNumber = 0;
+			}
+			if (m_DashCheck == true)
+				m_pBulletLst->push_back(CreateFullChargeBullet(0, -30));
 
-			m_pBulletLst->push_back(CreateFullChargeBullet());
+			else
+				m_pBulletLst->push_back(CreateFullChargeBullet());
 		}
+		m_bAnimationWorking == false;
 		bInputable = false;
 		m_Reinforce_Time = 0.f;
 		m_bReinforce = false;
@@ -476,12 +550,12 @@ void CPlayer::KeyInput()
 			m_CurState = JUMP_RIGHT;
 		else
 			m_CurState = JUMP_LEFT;
-	} 
-	
+	}
+
 	// 최대 높이 일때의 프레임을 맞춰두고, 
 	// 높이에 따르는 프레임 속도를 조절,
 	// m_blsJump는 건드리면 안되고, 대신 Grivaty를 건드려야함. 
-	
+
 
 
 
@@ -498,7 +572,7 @@ void CPlayer::KeyInput()
 		{
 			//m_tInfo.fX += m_fSpeed*1.8f;
 			m_CurState = DASH_RIGHT;
-			CEffectManager::CreatePlayerAttackEffect(this->GetInfo().fX - cScrollMgr::m_fScrollX-100.f, this->GetInfo().fY - cScrollMgr::m_fScrollY+35.f, L"DashRightEffect");
+			CEffectManager::CreatePlayerAttackEffect(this->GetInfo().fX - cScrollMgr::m_fScrollX - 100.f, this->GetInfo().fY - cScrollMgr::m_fScrollY + 35.f, L"DashRightEffect");
 		}
 		else
 		{
@@ -523,7 +597,7 @@ void CPlayer::IsOutRange()
 
 void CPlayer::OffSet()
 {
-	if (WINCX / 2  < m_tInfo.fX - cScrollMgr::m_fScrollX) // 이거문제있음.
+	if (WINCX / 2 < m_tInfo.fX - cScrollMgr::m_fScrollX) // 이거문제있음.
 	{
 		cScrollMgr::m_fScrollX += m_fSpeed;
 	}
@@ -563,7 +637,7 @@ bool CPlayer::IsGround()
 	float y2 = pTarget->tRPoint.y - 50.f;
 
 	m_fGroundY = (y2 - y1) / (x2 - x1) * (m_tInfo.fX - x1) + y1;
-	
+
 
 	return true;
 }
@@ -646,7 +720,7 @@ void CPlayer::vIDLE_ATTACK_RIGHT()
 	m_iAniCount = 0;
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
-	m_AniData.dwFrameSpeed = 60;
+	m_AniData.dwFrameSpeed = 30;
 }
 
 void CPlayer::vREINFORCE_ATTACK_RIGHT()
@@ -688,6 +762,15 @@ void CPlayer::vDASH_RIGHT()
 
 void CPlayer::vDASH_ATTACK_RIGHT()
 {
+	m_Image = CMainGame::GetInstance()->GetResource()->Get(L"PlayerDashAttackRight");
+	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerDashAttackRight");
+	m_CurState = DASH_RIGHT;
+	m_PreState = m_CurState;
+	m_iAniCount = 0;
+	m_AniData.dwCurTime = GetTickCount();
+	m_AniData.dwOldTime = GetTickCount();
+	m_AniData.dwFrameSpeed = 45;
+	m_DashCheck = true;
 }
 
 void CPlayer::vDASH_STOP_RIGHT()
@@ -792,6 +875,15 @@ void CPlayer::vDASH_LEFT()
 
 void CPlayer::vDASH_ATTACK_LEFT()
 {
+	m_Image = CMainGame::GetInstance()->GetResource()->Get(L"PlayerDashAttackLeft");
+	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerDashAttackLeft");
+	m_CurState = DASH_ATTACK_LEFT;
+	m_PreState = m_CurState;
+	m_iAniCount = 0;
+	m_AniData.dwCurTime = GetTickCount();
+	m_AniData.dwOldTime = GetTickCount();
+	m_AniData.dwFrameSpeed = 45;
+	m_DashCheck = true;
 }
 
 void CPlayer::vDASH_STOP_LEFT()
