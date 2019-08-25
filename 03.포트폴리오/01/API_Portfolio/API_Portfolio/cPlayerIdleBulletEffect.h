@@ -11,6 +11,7 @@ public:
 	DWORD dwOldTime;
 	DWORD dwFrameSpeed;
 	bool  m_Count;
+	float fx;
 public:
 	cPlayerIdleBulletEffect();
 	virtual ~cPlayerIdleBulletEffect();
@@ -20,5 +21,7 @@ public:
 	virtual int Update() override;
 	virtual void Render(HDC hDC) override;
 	virtual void Release() override;
+
+	void fxPlus();
 };
 

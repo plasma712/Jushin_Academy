@@ -11,6 +11,7 @@ public:
 	DWORD dwOldTime;
 	DWORD dwFrameSpeed;
 	bool  m_Count;
+	bool  PlayerDirction;
 
 public:
 	cPlayerFullBulletEffect();

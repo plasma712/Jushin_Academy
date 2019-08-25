@@ -4,6 +4,7 @@
 #include "MainGame.h"
 #include "Scene.h"
 #include "cBossBullet.h"
+#include "cBossUIMgr.h"
 
 
 
@@ -25,8 +26,6 @@ void cStage01Boss::Initialize()
 
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
-	m_AniData.dwFrameSpeed = 60;
-
 
 	m_Image = CMainGame::GetInstance()->GetResource()->Get(L"ColonelLeftStart");
 	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"ColonelLeftStart");
@@ -36,7 +35,7 @@ void cStage01Boss::Initialize()
 	m_tInfo.fCX = m_AniData.iWarpWidth *2.5f;
 	m_tInfo.fCY = m_AniData.iHeight*2.5f;
 
-	m_tInfo.fX = 600.f;
+	m_tInfo.fX = 1300.f;
 	m_tInfo.fY = 200.f;
 
 	m_fSpeed = 10.f;
@@ -46,6 +45,14 @@ void cStage01Boss::Initialize()
 	m_Direction = false;
 
 	m_iHP = 500;
+	m_iMaxHp = m_iHP;
+	CuriHp = m_iHP;
+	m_iAttackDamage = 10;
+
+	dwPatternCurTime = GetTickCount();
+	dwPatternOldTime = GetTickCount();
+
+	
 }
 
 int cStage01Boss::Update()
@@ -72,6 +79,7 @@ int cStage01Boss::Update()
 void cStage01Boss::Render(HDC hDC)
 {
 	BossRect();
+	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 
 	TransparentBlt
 	(
@@ -143,6 +151,7 @@ void cStage01Boss::vBossFSM()
 	if (m_bAnimationWorking == false)
 	{
 		m_CurState = STAGE01BOSS_IDLE_LEFT;
+		
 		m_bAnimationWorking = true;
 	}
 	if (MonsterX - PlayerX < 300)// 플레이어와 맵 위치간의 거리를 특정오브젝트로 체크후 나타남.
@@ -224,6 +233,19 @@ void cStage01Boss::SetBulletLst(OBJLIST * pBulletLst)
 }
 
 #pragma region 애니메이션
+
+void cStage01Boss::vDelay(DWORD _dwPatternFrameSpeed)
+{
+	while (true)
+	{
+		dwPatternCurTime = GetTickCount();
+		if (dwPatternCurTime - dwPatternOldTime > _dwPatternFrameSpeed)
+		{
+			dwPatternOldTime = dwPatternCurTime;
+			return;
+		}
+	}
+}
 
 void cStage01Boss::vSTART_RIGHT()
 {

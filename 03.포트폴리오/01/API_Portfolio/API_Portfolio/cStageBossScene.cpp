@@ -13,9 +13,11 @@
 #include "cRolling.h"
 #include "cStage01Boss.h"
 #include "cStage01Object.h"
+#include "cBossUIMgr.h"
 
 
 cStageBossScene::cStageBossScene()
+	: bfirst(false)
 {
 }
 
@@ -35,23 +37,30 @@ void cStageBossScene::Initialize()
 	pGameObject = CAbstractFactory<CPlayer>::CreateObject();
 	dynamic_cast<CPlayer*>(pGameObject)->SetBulletLst(&m_ObjLst[OBJECT_BULLET]);
 	m_ObjLst[OBJECT_PLAYER].push_back(pGameObject);
-
-	//
-	// 보스 + 오브젝트
-	pGameObject = CAbstractFactory<cStage01Boss>::CreateObject();
-	dynamic_cast<cStage01Boss*>(pGameObject)->SetBulletLst(&m_ObjLst[OBJECT_MONSTER_BULLET]);
-	m_ObjLst[OBJECT_MONSTER].push_back(pGameObject);
-
-
-	//
-
+	
+	//pGameObject = CAbstractFactory<CUIMgr>::CreateObject();
 	pGameObject = CAbstractFactory<CUIMgr>::CreateObject();
 	m_ObjLst[OBJECT_UI].push_back(pGameObject);
+
+	//
+	//// 보스 + 오브젝트
+	//pGameObject = CAbstractFactory<cStage01Boss>::CreateObject();
+	//dynamic_cast<cStage01Boss*>(pGameObject)->SetBulletLst(&m_ObjLst[OBJECT_MONSTER_BULLET]);
+	//m_ObjLst[OBJECT_MONSTER].push_back(pGameObject);
+
+
+	////
+
+	//pGameObject = CAbstractFactory<cBossUIMgr>::CreateObject();
+	//m_ObjLst[OBJECT_BOSSUI].push_back(pGameObject);
 
 }
 
 void cStageBossScene::Update()
 {
+	if(bfirst==false && CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_PLAYER].front()->GetInfo().fX >1000)
+		vBossCreate();
+
 	for (int i = 0; i < OBJECT_END; ++i)
 	{
 		OBJLIST::iterator iter_Begin = m_ObjLst[i].begin();
@@ -79,6 +88,7 @@ void cStageBossScene::Update()
 
 	CCollisionManager::CollisionRect(m_ObjLst[OBJECT_MONSTER], m_ObjLst[OBJECT_BULLET]);
 	CCollisionManager::CollisionPlayerTerrain(m_ObjLst[OBJECT_PLAYER], m_ObjLst[OBJECT_STAGEOBJECT]);
+	//CCollisionManager::CollisionPlayerMonster(m_ObjLst[OBJECT_MONSTER], m_ObjLst[OBJECT_PLAYER]);
 
 	CheckAniRoop(m_ObjLst[OBJECT_MONSTER_BULLET]);
 
@@ -178,4 +188,26 @@ void cStageBossScene::CheckAniRoop(OBJLIST & dstLst)
 		if (pDest->GetAniCount() == (pDest->GetAniData().iImageCount - 1))
 			pDest->SetAniCount(0);
 	}
+}
+
+void cStageBossScene::vBossCreate()
+{
+	CGameObject* pGameObject = nullptr;
+
+	// 보스 + 오브젝트
+	pGameObject = CAbstractFactory<cStage01Boss>::CreateObject();
+	dynamic_cast<cStage01Boss*>(pGameObject)->SetBulletLst(&m_ObjLst[OBJECT_MONSTER_BULLET]);
+	m_ObjLst[OBJECT_MONSTER].push_back(pGameObject);
+
+
+	//
+
+	//pGameObject = CAbstractFactory<CUIMgr>::CreateObject();
+	pGameObject = CAbstractFactory<CUIMgr>::CreateObject();
+	m_ObjLst[OBJECT_UI].push_back(pGameObject);
+
+	pGameObject = CAbstractFactory<cBossUIMgr>::CreateObject();
+	m_ObjLst[OBJECT_BOSSUI].push_back(pGameObject);
+
+	bfirst = true;
 }

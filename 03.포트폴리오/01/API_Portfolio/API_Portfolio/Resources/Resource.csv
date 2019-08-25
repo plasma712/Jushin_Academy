@@ -58,8 +58,8 @@ PlayerDashRight,./Resources/02.Player/01.Right/x_right_07.bmp,12
 PlayerDashAttackRight,./Resources/02.Player/01.Right/x_right_08.bmp,12
 PlayerDashLeft,./Resources/02.Player/02.Left/x_left_07.bmp,12
 PlayerDashAttackLeft,./Resources/02.Player/02.Left/x_left_08.bmp,12
-PlayerHitRight,./Resources/02.Player/01.Right/x_right_24.bmp,4
-PlayerHitLeft,./Resources/02.Player/02.Left/x_left_24.bmp,4
+PlayerHitRight,./Resources/02.Player/01.Right/x_right_24.bmp,7
+PlayerHitLeft,./Resources/02.Player/02.Left/x_left_24.bmp,7
 Charge,./Resources/05.Effect/01.Reinforce/Charge.bmp,8
 ChargeFull,./Resources/05.Effect/01.Reinforce/full_charge.bmp,5
 ChargeFull11,./Resources/05.Effect/01.Reinforce/full_charge11.bmp,5
@@ -79,6 +79,8 @@ CurrentHP,./Resources/06.UI/CurrentHP.bmp,1
 DecreaseHP,./Resources/06.UI/DecreaseHP.bmp,1
 HPBar,./Resources/06.UI/HPBar.bmp,1
 life,./Resources/06.UI/life.bmp,1
+BossHpFrame,./Resources/06.UI/02.Boss/BossHpFrame.bmp,1
+BossCurrentHp,./Resources/06.UI/02.Boss/CurrentHP.bmp,1
 Monster,./Monster/Monster/Monster.bmp,1
 GunmanRightIdle,./Resources/07.Monster/02.Gunman/01.Right/gunman_right_01.bmp,8
 GunmanRightWalk,./Resources/07.Monster/02.Gunman/01.Right/gunman_right_02.bmp,7
@@ -89,6 +91,7 @@ GunmanLeftWalk,./Resources/07.Monster/02.Gunman/02.Left/gunman_left_02.bmp,7
 GunmanLeftGun,./Resources/07.Monster/02.Gunman/02.Left/gunman_left_03.bmp,4
 GunmanLeftBomb,./Resources/07.Monster/02.Gunman/02.Left/gunman_left_04.bmp,7
 GunmanBullet,./Resources/07.Monster/02.Gunman/gunman_bullet.bmp,4
+GunmanBomb,./Resources/07.Monster/02.Gunman/gunman_bomb.bmp,1
 RollingRightIdle,./Resources/07.Monster/01.Rolling/01.Right/Rolling_right_03.bmp,3
 RollingRightAttack,./Resources/07.Monster/01.Rolling/01.Right/Rolling_right_01.bmp,7
 RollingRightAttackStop,./Resources/07.Monster/01.Rolling/01.Right/Rolling_right_02.bmp,6

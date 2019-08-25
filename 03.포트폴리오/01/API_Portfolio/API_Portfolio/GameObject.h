@@ -37,17 +37,25 @@ public:
 	void			vSetBulletNumber(int _BulletNumber);
 	int				BulletNumber;
 
-	
+	void			SetDamgeDecrease(float _Attack);
+	int				GetDamage();
+	//////
 
-protected:
+	bool			GetNotDamage();
+	void			SetNotDamage(bool _NotDamage);
+
+public:
 	void			UpdateRect();
 
-protected:
+	public:
 	INFO			m_tInfo;
 	RECT			m_tRect;
 	float			m_fDirection;
 	float			m_fSpeed;
 	int				m_iHP;
+	int				m_iMaxHp;
+	int				CuriHp;
+
 	int				m_iAttackDamage;
 	HDC				m_Image;
 	bool			m_bIsDead;
@@ -57,5 +65,7 @@ protected:
 	int				m_iAniCount;
 
 	bool			m_bDirection;
-
+	bool			NotDamage;
+	bool			bPlayer = false;
+	bool			m_Direction; // ÀÌ°Ô ÁÂ¿ì
 };

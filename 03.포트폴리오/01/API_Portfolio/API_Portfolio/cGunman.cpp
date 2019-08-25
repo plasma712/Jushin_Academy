@@ -39,7 +39,7 @@ void cGunman::Initialize()
 	m_tInfo.fX = 600.f;
 	m_tInfo.fY = 200.f;
 
-	m_fSpeed = 10.f;
+	//m_fSpeed = 10.f;
 	m_bAnimationWorking = false;
 	m_iAniCount = 0;
 
@@ -60,12 +60,12 @@ int cGunman::Update()
 		CEffectManager::CreateMonsterDeadEffect(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY, L"MonsterDeadEffect");
 		return DEAD_OBJ;
 	}
-
+	vPatternRand();
 	vGunManFSM();
 	IsFrame();
 	IsAniMation();
 	IsJump();
-
+	vIsMove();
 	return 0;
 }
 
@@ -75,7 +75,7 @@ void cGunman::Render(HDC hDC)
 {
 	//CGameObject::UpdateRect();
 	GunManRect();
-//	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 
 	TransparentBlt
 	(
@@ -105,9 +105,13 @@ void cGunman::IsFrame()
 		m_AniData.dwOldTime = m_AniData.dwCurTime;
 		//CreateGunManBullet();
 
-		if (m_iAniCount==2)
+		if (m_iAniCount == 2)
 		{
 			if (m_CurState == GUNMAN_ATTACK_RIGHT)
+			{
+				m_pBulletLst->push_back(CreateGunManBullet());
+			}
+			if (m_CurState == GUNMAN_ATTACK_LEFT)
 			{
 				m_pBulletLst->push_back(CreateGunManBullet());
 			}
@@ -154,15 +158,42 @@ void cGunman::IsAniMation()
 
 void cGunman::vGunManFSM()
 {
-	if (m_bAnimationWorking == false)
+
+	if (m_bAnimationWorking == false && iRandom==0)
 	{
 		m_CurState = GUNMAN_IDLE_RIGHT;
 		m_bAnimationWorking = true;
 	}
-	if (MonsterX- PlayerX <300)
+	if (m_bAnimationWorking == false && iRandom == 1)
 	{
-		m_CurState = GUNMAN_ATTACK_RIGHT;
+		m_CurState = GUNMAN_IDLE_LEFT;
+		m_bAnimationWorking = true;
 	}
+	if (m_bAnimationWorking == false && iRandom == 2)
+	{
+		m_CurState = GUNMAN_IDLE_WALK_RIGHT;
+		m_bAnimationWorking = true;
+	}
+	if (m_bAnimationWorking == false && iRandom == 3)
+	{
+		m_CurState = GUNMAN_IDLE_WALK_LEFT;
+		m_bAnimationWorking = true;
+	}
+
+	//if (MonsterX - PlayerX <450 && MonsterX - PlayerX>-450)
+	//{
+	//	if (PlayerX < MonsterX)
+	//	{
+	//		m_CurState = GUNMAN_ATTACK_RIGHT;
+	//		m_Direction = false;
+	//	}
+	//	else
+	//	{
+	//		m_CurState = GUNMAN_ATTACK_LEFT;
+	//		m_Direction = true;
+	//	}
+	//}
+
 }
 
 bool cGunman::IsGround()
@@ -220,7 +251,7 @@ void cGunman::IsJump()
 
 void cGunman::GunManRect()
 {
-	m_tRect.left = static_cast<LONG>(m_tInfo.fX - m_tInfo.fCX * 0.5f-cScrollMgr::m_fScrollX);
+	m_tRect.left = static_cast<LONG>(m_tInfo.fX - m_tInfo.fCX * 0.5f - cScrollMgr::m_fScrollX);
 	m_tRect.top = static_cast<LONG>(m_tInfo.fY - m_tInfo.fCY * 0.5f - cScrollMgr::m_fScrollY);
 	m_tRect.right = static_cast<LONG>(m_tInfo.fX + m_tInfo.fCX * 0.5f - cScrollMgr::m_fScrollX);
 	m_tRect.bottom = static_cast<LONG>(m_tInfo.fY + m_tInfo.fCY * 0.5f - cScrollMgr::m_fScrollY);
@@ -236,6 +267,22 @@ void cGunman::SetBulletLst(OBJLIST * pBulletLst)
 	m_pBulletLst = pBulletLst;
 }
 
+void cGunman::vPatternRand()
+{
+	if (m_bAnimationWorking == false)
+		iRandom = rand() % 3;
+
+}
+
+void cGunman::vIsMove()
+{
+	if (m_Direction == true)
+		m_tInfo.fX -= m_fSpeed;
+	else
+		m_tInfo.fX += m_fSpeed;
+}
+
+
 
 #pragma region 애니메이션함수
 
@@ -250,6 +297,7 @@ void cGunman::vIDLE_RIGHT()
 	m_AniData.dwOldTime = GetTickCount();
 	m_AniData.dwFrameSpeed = 300;
 
+	m_fSpeed = 0;
 }
 
 void cGunman::vIDLE_LEFT()
@@ -261,7 +309,8 @@ void cGunman::vIDLE_LEFT()
 
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
-	m_AniData.dwFrameSpeed = 100;
+	m_AniData.dwFrameSpeed = 300;
+	m_fSpeed = 0;
 
 }
 
@@ -275,6 +324,7 @@ void cGunman::vIDLE_WALK_RIGHT()
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
 	m_AniData.dwFrameSpeed = 100;
+	m_fSpeed = 1;
 
 }
 
@@ -288,6 +338,7 @@ void cGunman::vIDLE_WALK_LEFT()
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
 	m_AniData.dwFrameSpeed = 100;
+	m_fSpeed = 1;
 
 }
 

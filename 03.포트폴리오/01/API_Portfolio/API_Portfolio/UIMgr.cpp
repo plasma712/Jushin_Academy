@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "UIMgr.h"
 #include "ResourceManager.h"
-
+#include "Scene.h"
 
 CUIMgr::CUIMgr()
 {
@@ -68,9 +68,9 @@ void CUIMgr::Render(HDC hDC)
 	(
 		hDC,
 		57,	// Rectangle로 보면 Left값
-		105,										// 여기서 체력 단만큼 +해줌
+		105 + 9 * (CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_PLAYER].front()->m_iMaxHp -CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_PLAYER].front()->m_iHP),											// 여기서 체력 단만큼 -해줌 9당 1
 		14, 
-		90,											// 여기서 체력 단만큼 -해줌
+		9 *(CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_PLAYER].front()->m_iHP),											// 여기서 체력 단만큼 -해줌 9당 1
 		m_pUIMgr_PlayerHp, // 이미지 불러오기
 		0,  // m_iAniCount*m_AniData.iWarpWidth,
 		0,

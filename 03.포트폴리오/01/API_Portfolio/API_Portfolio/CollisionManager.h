@@ -13,6 +13,7 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////
 	static void CollisionPlayerTerrain(const OBJLIST& _Player, const OBJLIST& _Terrain);
 
+	static void CollisionPlayerMonster(const OBJLIST& dstLst, const OBJLIST& srcLst);
 
 
 private:

@@ -40,7 +40,7 @@ void CStage1Scene::Initialize()
 	m_ObjLst[OBJECT_PLAYER].push_back(pGameObject);
 	//LoadMonster();
 
-	for (int k = 3; k < 10; k++)
+	for (int k = 1; k < 10; k++)
 	{
 		pGameObject = CAbstractFactory<cGunman>::CreateObject(k*200+400,300);
 		dynamic_cast<cGunman*>(pGameObject)->SetBulletLst(&m_ObjLst[OBJECT_MONSTER_BULLET]);
@@ -113,6 +113,9 @@ void CStage1Scene::Update()
 
 	CCollisionManager::CollisionRect(m_ObjLst[OBJECT_MONSTER], m_ObjLst[OBJECT_BULLET]);
 	CCollisionManager::CollisionPlayerTerrain(m_ObjLst[OBJECT_PLAYER], m_ObjLst[OBJECT_STAGEOBJECT]);
+	CCollisionManager::CollisionPlayerMonster(m_ObjLst[OBJECT_PLAYER], m_ObjLst[OBJECT_MONSTER_BULLET]);
+	//CCollisionManager::CollisionRect(m_ObjLst[OBJECT_PLAYER], m_ObjLst[OBJECT_BULLET]);
+
 
 	CheckAniRoop(m_ObjLst[OBJECT_MONSTER_BULLET]);
 

@@ -3,6 +3,7 @@
 #include "EffectManager.h"
 #include "GameObject.h"
 #include "Item.h"
+#include "Scene.h"
 
 CCollisionManager::CCollisionManager()
 {
@@ -25,8 +26,10 @@ void CCollisionManager::CollisionRect(const OBJLIST & dstLst, const OBJLIST & sr
 			// 두 사각형의 충돌을 검사하는 API 함수
 			if (IntersectRect(&rc, &(pDest->GetRect()), &(pSource->GetRect())))
 			{
-				pDest->SetDamaged();
-				pSource->SetDamaged();
+				//pDest->SetDamaged();
+				//pSource->SetDamaged();
+				pDest->SetDamgeDecrease(pSource->GetDamage());
+				pSource->SetDamgeDecrease(pDest->GetDamage());
 			}
 		}
 	}
@@ -114,6 +117,31 @@ void CCollisionManager::CollisionPlayerTerrain(const OBJLIST & _Player, const OB
 			}
 		}
 	}
+}
+
+void CCollisionManager::CollisionPlayerMonster(const OBJLIST & dstLst, const OBJLIST & srcLst)
+{
+	RECT rc = {};
+
+	for (auto& pDest : dstLst)
+	{
+		for (auto& pSource : srcLst)
+		{
+			// BOOL IntersectRect(RECT* pOut, const RECT* pIn1, const RECT* pIn2)
+			// 두 사각형의 충돌을 검사하는 API 함수
+			if (IntersectRect(&rc, &(pDest->GetRect()), &(pSource->GetRect())))
+			{
+				//pDest->SetDamaged();
+				//pSource->SetDamaged();
+				if(CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_PLAYER].front()->GetNotDamage()==false)
+					pDest->SetDamgeDecrease(pSource->GetDamage());
+				
+				pSource->SetDamgeDecrease(pDest->GetDamage());
+
+			}
+		}
+	}
+
 }
 
 

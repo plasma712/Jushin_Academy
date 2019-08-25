@@ -39,6 +39,19 @@ public:
 	OBJLIST*		m_pBulletLst;
 	void SetBulletLst(OBJLIST* pBulletLst);
 
+
+	DWORD		dwPatternCurTime;
+	DWORD		dwPatternOldTime;
+	DWORD		dwPatternFrameSpeed;
+
+	void		vPatternRand();
+	//int			FSMNumber;
+	void	    vIsMove();
+	int			iRandom;
+	//int iRandom = rand() % 100;
+
+	
+
 #pragma region 애니메이션함수
 
 	void vIDLE_RIGHT();

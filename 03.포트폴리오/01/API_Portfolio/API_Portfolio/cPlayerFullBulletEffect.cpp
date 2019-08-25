@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "cPlayerFullBulletEffect.h"
-
+#include "Scene.h"
 
 void cPlayerFullBulletEffect::Dead()
 {
@@ -60,6 +60,7 @@ void cPlayerFullBulletEffect::Render(HDC hDC)
 	//vRect();
 	//TransparentBlt(hDC, m_tRect.left, m_tRect.top,m_tInfo.fCX, m_tInfo.fCY, m_Image, 0, 0, m_tInfo.fCX, m_tInfo.fCY, RGB(255, 255, 255));
 	//Rectangle(hDC, m_tRect.left, m_tRect.top, m_AniData.iWarpWidth, m_AniData.iHeight);
+	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 
 	TransparentBlt
 	(

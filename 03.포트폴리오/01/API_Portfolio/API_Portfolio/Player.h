@@ -56,7 +56,7 @@ private:
 
 	bool       m_bAnimationWorking;
 
-	bool       m_Direction;		//True는 Right방향
+	//bool       m_Direction;		//True는 Right방향
 	float	   m_OffSetSpeed;
 
 	bool       m_DashCheck;
@@ -74,6 +74,8 @@ private:
 public:
 	bool IsGround();
 	void IsJump();
+	void PlayerRectUpdate();
+
 //////////////////////////////////////////////////
 	list<LINE*> m_LineList; // 라인에디터를 통해서 호출.
 	float		m_fGroundY;
@@ -83,6 +85,14 @@ public:
 	float		m_fJumpAcc;
 public:
 	static float  m_stSpeed;
+
+
+	DWORD		dwPatternCurTime;
+	DWORD		dwPatternOldTime;
+	DWORD		dwPatternFrameSpeed;
+
+	void vDelay(DWORD _dwPatternFrameSpeed);
+
 
 #pragma region 애니메이션함수
 
@@ -98,6 +108,8 @@ public:
 	void vDASH_STOP_RIGHT();
 	void vJUMP_RIGHT();
 	void vJUMP_ATTACK_RIGHT();
+
+	void VDAMAGE_RIGHT();
 	/// 추가해야함 
 
 	///////////////////////////////////////////////
@@ -112,6 +124,8 @@ public:
 	void vDASH_STOP_LEFT();
 	void vJUMP_LEFT();
 	void vJUMP_ATTACK_LEFT();
+
+	void VDAMAGE_LEFT();
 	/// 추가해야함 
 #pragma endregion
 

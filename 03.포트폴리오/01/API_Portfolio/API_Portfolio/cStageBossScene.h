@@ -22,5 +22,7 @@ public:
 	void SetSceneChangeKeyValue(int _KeyValue);
 	void CheckAniRoop(OBJLIST& dstLst);
 
+	void vBossCreate();
+	bool bfirst;
 };
 

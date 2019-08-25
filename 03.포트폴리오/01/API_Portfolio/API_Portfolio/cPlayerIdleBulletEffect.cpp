@@ -31,11 +31,11 @@ void cPlayerIdleBulletEffect::Initialize()
 
 
 	m_iAniCount = 0;
-
 }
 
 int cPlayerIdleBulletEffect::Update()
 {
+	fxPlus();
 	dwCurTime = GetTickCount();
 
 	if (dwCurTime - dwOldTime > dwFrameSpeed)
@@ -78,4 +78,12 @@ void cPlayerIdleBulletEffect::Render(HDC hDC)
 
 void cPlayerIdleBulletEffect::Release()
 {
+}
+
+void cPlayerIdleBulletEffect::fxPlus()
+{
+	if (m_bDirection == true)
+		fx = 100;
+	else
+		fx = - 100;
 }

@@ -38,6 +38,14 @@ public:
 	OBJLIST*		m_pBulletLst;
 	void SetBulletLst(OBJLIST* pBulletLst);
 
+	DWORD		dwPatternCurTime;
+	DWORD		dwPatternOldTime;
+	DWORD		dwPatternFrameSpeed;
+
+	void vDelay(DWORD _dwPatternFrameSpeed);
+
+	
+
 #pragma region 애니메이션함수
 
 	void vSTART_RIGHT();

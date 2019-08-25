@@ -72,6 +72,18 @@ void CPlayer::Initialize()
 	m_Reinforce_Time = 0.f;
 
 	WalkAttackCheck = false;
+
+	m_iHP = 10.f;
+	m_iMaxHp = m_iHP;
+	CuriHp = m_iHP;
+	m_iAttackDamage = 5.f;
+
+	bPlayer = true;
+
+	NotDamage = false;
+	dwPatternCurTime = GetTickCount();
+	dwPatternOldTime = GetTickCount();
+
 }
 
 
@@ -100,6 +112,7 @@ void CPlayer::IsFrame()
 			m_DashSpeedUp = true;
 
 		}
+
 	}
 
 	if (m_iAniCount >= m_AniData.iImageCount)
@@ -111,6 +124,8 @@ void CPlayer::IsFrame()
 				m_iAniCount = 0;
 				bInputable = true;
 				m_CurState = IDLE_RIGHT;
+				NotDamage = false;
+
 			}
 		}
 		m_iAniCount = 0;
@@ -119,6 +134,7 @@ void CPlayer::IsFrame()
 		m_fSpeed = 10.f;
 		m_DashSpeedUp = false;
 		WalkAttackCheck = false;
+		NotDamage = false;
 	}
 }
 
@@ -161,6 +177,10 @@ void CPlayer::IsAniMation()
 		case JUMP_ATTACK_RIGHT:
 			vJUMP_ATTACK_RIGHT();
 			break;
+		case HitRight:
+			VDAMAGE_RIGHT();
+			break;
+
 			//////////////////////////////////////////////////////////////////////////////
 		case IDLE_GAMESTART_LEFT:
 			vIDLE_GAMESTART_LEFT();
@@ -195,6 +215,9 @@ void CPlayer::IsAniMation()
 		case JUMP_ATTACK_LEFT:
 			vJUMP_ATTACK_LEFT();
 			break;
+		case HitLeft:
+			VDAMAGE_LEFT();
+			break;
 
 		}
 	}
@@ -204,6 +227,20 @@ int CPlayer::Update()
 {
 	m_stSpeed = m_fSpeed;
 
+	if (m_bIsDead)
+	{
+		return DEAD_OBJ;
+	}
+
+	if (CuriHp != m_iHP)
+	{
+		CuriHp = m_iHP;
+		if (m_Direction == true)
+			VDAMAGE_RIGHT();
+		if (m_Direction == false)
+			VDAMAGE_LEFT();
+	}
+	//vDelay(30);
 	KeyInput();
 	IsFrame();
 
@@ -218,13 +255,15 @@ int CPlayer::Update()
 
 void CPlayer::Render(HDC hDC)
 {
-	CGameObject::UpdateRect();
+	//CGameObject::UpdateRect();
+	PlayerRectUpdate();
 
+	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 
 	TransparentBlt(
 		hDC,
-		m_tRect.left - cScrollMgr::m_fScrollX,	// Rectangle로 보면 Left값
-		m_tRect.top - cScrollMgr::m_fScrollY,	// Rectangle로 보면 Bottom값
+		m_tRect.left, //- cScrollMgr::m_fScrollX,	// Rectangle로 보면 Left값
+		m_tRect.top,  //- cScrollMgr::m_fScrollY,	// Rectangle로 보면 Bottom값
 		m_tInfo.fCX,	// 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
 		m_tInfo.fCY,	// 불러오는값? 이라고해야하나 사이즈 크기에 안맞으면 늘거나 줄어들음.
 		m_Image,		// 이미지 불러오기
@@ -290,12 +329,12 @@ void CPlayer::CreateBomb()
 
 void CPlayer::KeyInput()
 {
-	if (bInputable)
+	if (bInputable==true && NotDamage==false)
 	{
 		m_pKeyMgr->Update();
 	}
 
-	if (m_bAnimationWorking == false && bInputable == true && m_bIsJump == false) // 모든 애니메이션 끝나고 기본상태로 돌아가게 하기위함.
+	if (m_bAnimationWorking == false && bInputable == true && m_bIsJump == false&&NotDamage==false) // 모든 애니메이션 끝나고 기본상태로 돌아가게 하기위함.
 	{
 		if (m_Direction == true)
 		{
@@ -324,17 +363,17 @@ void CPlayer::KeyInput()
 
 	if (m_pKeyMgr->KeyUp(KEY_RIGHT))
 	{
-		
+
 		m_CurState = IDLE_RIGHT; // 여기서 멈추는 애니메이션도 추가
 		WalkCheck = false;
-		
+
 		m_iAniCount = 20;
 		m_DashCheck = false;
 		m_bAnimationWorking = false;
 		m_fSpeed = 10.f;
 		m_DashSpeedUp = false;
 		WalkAttackCheck = false;
-
+		NotDamage = false;
 
 	}
 
@@ -367,6 +406,15 @@ void CPlayer::KeyInput()
 	{
 		m_CurState = IDLE_LEFT; // 여기서 멈추는 애니메이션도 추가
 		WalkCheck = false;
+
+		m_iAniCount = 20;
+		m_DashCheck = false;
+		m_bAnimationWorking = false;
+		m_fSpeed = 10.f;
+		m_DashSpeedUp = false;
+		WalkAttackCheck = false;
+		NotDamage = false;
+
 	}
 
 	if (m_pKeyMgr->KeyDown(KEY_C))
@@ -386,7 +434,7 @@ void CPlayer::KeyInput()
 			m_pBulletLst->push_back(CreateBullet());    //딜레이 넣기
 		}
 
-		if (m_Direction == true && WalkCheck == true &&m_DashCheck==false)
+		if (m_Direction == true && WalkCheck == true && m_DashCheck == false)
 		{
 			m_CurState = WALK_ATTACK_RIGHT;
 			BulletNumber = 0;
@@ -401,11 +449,11 @@ void CPlayer::KeyInput()
 			m_pBulletLst->push_back(CreateBullet());    //딜레이 넣기
 		}
 
-		if (m_Direction == true && m_DashCheck == true )
+		if (m_Direction == true && m_DashCheck == true)
 		{
 			m_CurState = DASH_ATTACK_RIGHT;
 			BulletNumber = 0;
-			m_pBulletLst->push_back(CreateBullet(0,-30));	//딜레이 넣기
+			m_pBulletLst->push_back(CreateBullet(0, -30));	//딜레이 넣기
 		}
 
 		if (m_Direction == false && m_DashCheck == true)
@@ -684,8 +732,29 @@ void CPlayer::IsJump()
 
 }
 
+void CPlayer::PlayerRectUpdate()
+{
+	m_tRect.left = static_cast<LONG>(m_tInfo.fX - m_tInfo.fCX * 0.5f - cScrollMgr::m_fScrollX);
+	m_tRect.top = static_cast<LONG>(m_tInfo.fY - m_tInfo.fCY * 0.5f - cScrollMgr::m_fScrollY);
+	m_tRect.right = static_cast<LONG>(m_tInfo.fX + m_tInfo.fCX * 0.5f - cScrollMgr::m_fScrollX);
+	m_tRect.bottom = static_cast<LONG>(m_tInfo.fY + m_tInfo.fCY * 0.5f - cScrollMgr::m_fScrollY);
+}
+
 
 #pragma region 애니메이션함수
+
+void CPlayer::vDelay(DWORD _dwPatternFrameSpeed)
+{
+	dwPatternCurTime = GetTickCount();
+	if (dwPatternCurTime - dwPatternOldTime > _dwPatternFrameSpeed)
+	{
+		dwPatternOldTime = dwPatternCurTime;
+		if (NotDamage == true)
+			NotDamage = false;
+
+	}
+
+}
 
 void CPlayer::vIDLE_GAMESTART_RIGHT()
 {
@@ -710,6 +779,7 @@ void CPlayer::vIDLE_RIGHT()
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
 	m_AniData.dwFrameSpeed = 100;
+	
 }
 
 void CPlayer::vWALK_RIGHT()
@@ -804,6 +874,20 @@ void CPlayer::vJUMP_RIGHT()
 
 void CPlayer::vJUMP_ATTACK_RIGHT()
 {
+}
+
+void CPlayer::VDAMAGE_RIGHT()
+{
+	m_Image = CMainGame::GetInstance()->GetResource()->Get(L"PlayerHitRight");
+	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerHitRight");
+	m_CurState = HitRight;
+
+	m_PreState = m_CurState;
+	m_iAniCount = 0;
+	m_AniData.dwCurTime = GetTickCount();
+	m_AniData.dwOldTime = GetTickCount();
+	m_AniData.dwFrameSpeed = 100;
+	NotDamage = true;
 }
 
 void CPlayer::vIDLE_GAMESTART_LEFT()
@@ -917,5 +1001,18 @@ void CPlayer::vJUMP_LEFT()
 
 void CPlayer::vJUMP_ATTACK_LEFT()
 {
+}
+void CPlayer::VDAMAGE_LEFT()
+{
+	m_Image = CMainGame::GetInstance()->GetResource()->Get(L"PlayerHitLeft");
+	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"PlayerHitLeft");
+	m_CurState = HitLeft;
+
+	m_PreState = m_CurState;
+	m_iAniCount = 0;
+	m_AniData.dwCurTime = GetTickCount();
+	m_AniData.dwOldTime = GetTickCount();
+	m_AniData.dwFrameSpeed = 100;
+	NotDamage = true;
 }
 #pragma endregion 애니메이션함수

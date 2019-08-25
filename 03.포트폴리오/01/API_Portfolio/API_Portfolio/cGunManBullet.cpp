@@ -25,6 +25,8 @@ void cGunManBullet::Initialize()
 
 	m_fSpeed = 20.f;
 	
+	m_iHP = 0.f;
+	m_iAttackDamage = 1.f;
 }
 
 int cGunManBullet::Update()
@@ -57,7 +59,7 @@ int cGunManBullet::Update()
 void cGunManBullet::Render(HDC hDC)
 {
 	CGameObject::UpdateRect();
-	//Ellipse(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 	//TransparentBlt(hDC, m_tRect.left, m_tRect.top,m_tInfo.fCX, m_tInfo.fCY, m_Image, 0, 0, m_tInfo.fCX, m_tInfo.fCY, RGB(255, 255, 255));
 
 	TransparentBlt

@@ -106,3 +106,26 @@ void CGameObject::vSetBulletNumber(int _BulletNumber)
 {
 	BulletNumber = _BulletNumber;
 }
+
+void CGameObject::SetDamgeDecrease(float _Attack)
+{
+	m_iHP -= _Attack;
+
+	if(m_iHP<=0&&bPlayer==false)
+		SetDead(true);
+}
+
+int CGameObject::GetDamage()
+{
+	return m_iAttackDamage;
+}
+
+bool CGameObject::GetNotDamage()
+{
+	return NotDamage;
+}
+
+void CGameObject::SetNotDamage(bool _NotDamage)
+{
+	NotDamage = _NotDamage;
+}
