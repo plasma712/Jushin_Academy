@@ -24,6 +24,9 @@ void cFullChargeBullet::Initialize()
 
 	m_fSpeed = 20.f;
 
+	m_iAttackDamage = 12;
+	m_iHP = 5;
+
 }
 
 int cFullChargeBullet::Update()

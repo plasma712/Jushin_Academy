@@ -64,6 +64,7 @@ void CGameObject::SetAniCount(int _count)
 
 void CGameObject::SetDamaged()
 {
+	
 	SetDead(true);
 }
 

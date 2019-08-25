@@ -44,6 +44,8 @@ void cGunman::Initialize()
 	m_iAniCount = 0;
 
 	m_Direction = false;
+
+	m_iHP = 2;
 }
 
 int cGunman::Update()

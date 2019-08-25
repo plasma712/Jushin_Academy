@@ -4,6 +4,8 @@
 #include "Scene.h"
 #include "LogoScene.h"
 #include "Stage1Scene.h"
+#include "cStageBossScene.h"
+
 #include "EndingScene.h"
 #include "UIMgr.h"
 
@@ -35,8 +37,10 @@ void CMainGame::Initialize()
 	m_pScene[0]->Initialize();
 	m_pScene[1] = new CStage1Scene();
 	m_pScene[1]->Initialize();
-	m_pScene[2] = new CEndingScene();
+	m_pScene[2] = new cStageBossScene();
 	m_pScene[2]->Initialize();
+	m_pScene[3] = new CEndingScene();
+	m_pScene[3]->Initialize();
 
 }
 

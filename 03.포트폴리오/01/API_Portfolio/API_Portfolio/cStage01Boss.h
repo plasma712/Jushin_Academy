@@ -14,10 +14,10 @@ public:
 public:
 	void IsFrame();
 	void IsAniMation();
-	void vGunManFSM();
+	void vBossFSM();
 
-	GUNMAN		 m_PreState;
-	GUNMAN		 m_CurState;
+	Stage01Boss		 m_PreState;
+	Stage01Boss		 m_CurState;
 
 	bool		m_bAnimationWorking;
 
@@ -26,10 +26,29 @@ public:
 	float		m_fJumpForce;
 	float		m_fJumpAcc;
 
+	bool		m_Direction;
+
 	bool		IsGround();
 	void		IsJump();
 
-	void		GunManRect();
+	void		BossRect();
 
+
+	CGameObject* CreatePattern01Bullet();
+	OBJLIST*		m_pBulletLst;
+	void SetBulletLst(OBJLIST* pBulletLst);
+
+#pragma region 애니메이션함수
+
+	void vSTART_RIGHT();
+	void vSTART_LEFT();
+	void vIDLE_RIGHT();
+	void vIDLE_LEFT();
+	void vIDLE_WALK_RIGHT();
+	void vIDLE_WALK_LEFT();
+	void vATTACK01_RIGHT();
+	void vATTACK01_LEFT();
+
+#pragma endregion
 };
 

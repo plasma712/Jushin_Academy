@@ -322,10 +322,19 @@ void CPlayer::KeyInput()
 		m_tInfo.fX += m_fSpeed;
 	}
 
-	if (m_pKeyMgr->KeyUp(KEY_RIGHT) && m_DashCheck == false)
+	if (m_pKeyMgr->KeyUp(KEY_RIGHT))
 	{
+		
 		m_CurState = IDLE_RIGHT; // 여기서 멈추는 애니메이션도 추가
 		WalkCheck = false;
+		
+		m_iAniCount = 20;
+		m_DashCheck = false;
+		m_bAnimationWorking = false;
+		m_fSpeed = 10.f;
+		m_DashSpeedUp = false;
+		WalkAttackCheck = false;
+
 
 	}
 
@@ -573,12 +582,16 @@ void CPlayer::KeyInput()
 			//m_tInfo.fX += m_fSpeed*1.8f;
 			m_CurState = DASH_RIGHT;
 			CEffectManager::CreatePlayerAttackEffect(this->GetInfo().fX - cScrollMgr::m_fScrollX - 100.f, this->GetInfo().fY - cScrollMgr::m_fScrollY + 35.f, L"DashRightEffect");
+			CEffectManager::CreatePlayerAttackEffect(this->GetInfo().fX - cScrollMgr::m_fScrollX - 100.f, this->GetInfo().fY - cScrollMgr::m_fScrollY + 35.f, L"DashRightEffect01");
+
 		}
 		else
 		{
 			//m_tInfo.fX -= m_fSpeed*1.8f;
 			m_CurState = DASH_LEFT;
 			CEffectManager::CreatePlayerAttackEffect(this->GetInfo().fX - cScrollMgr::m_fScrollX + 100.f, this->GetInfo().fY - cScrollMgr::m_fScrollY + 35.f, L"DashLeftEffect");
+			CEffectManager::CreatePlayerAttackEffect(this->GetInfo().fX - cScrollMgr::m_fScrollX + 100.f, this->GetInfo().fY - cScrollMgr::m_fScrollY + 35.f, L"DashLeftEffect01");
+
 		}
 	}
 }

@@ -9,6 +9,8 @@ public:
 	const INFO&		GetInfo() const;
 	const RECT&		GetRect() const;
 	const HDC&		GetImage() const;
+
+	
 	// virtual
 public:
 	virtual void	Initialize() = 0;
@@ -46,6 +48,7 @@ protected:
 	float			m_fDirection;
 	float			m_fSpeed;
 	int				m_iHP;
+	int				m_iAttackDamage;
 	HDC				m_Image;
 	bool			m_bIsDead;
 

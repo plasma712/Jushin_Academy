@@ -18,5 +18,19 @@ private:
 
 	// CScene을(를) 통해 상속됨
 	virtual void LoadMonster() override;
+
+	CKeyManager*	m_pKeyMgr;
+
+	DWORD	   dwOldTime;
+	DWORD	   dwCurTime;
+
+
+	bool bKeyPressCheck;
+	int iKeyCheck;
+
+	int PressEnterTime;
+
+	void vPressEnterTime();
+	bool Check;
 };
 

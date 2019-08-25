@@ -25,6 +25,8 @@ void CBullet::Initialize()
 	m_tInfo.fCY = m_AniData.iHeight;
 	
 	m_fSpeed = 20.f;
+	m_iAttackDamage = 1;
+	m_iHP = 0;
 	//m_bDirection = true;
 
 }
