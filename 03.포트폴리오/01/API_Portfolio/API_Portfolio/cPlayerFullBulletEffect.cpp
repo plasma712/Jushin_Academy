@@ -36,6 +36,7 @@ void cPlayerFullBulletEffect::Initialize()
 
 int cPlayerFullBulletEffect::Update()
 {
+	fxPlus();
 	CGameObject::UpdateRect();
 	vRect();
 	dwCurTime = GetTickCount();
@@ -60,12 +61,12 @@ void cPlayerFullBulletEffect::Render(HDC hDC)
 	//vRect();
 	//TransparentBlt(hDC, m_tRect.left, m_tRect.top,m_tInfo.fCX, m_tInfo.fCY, m_Image, 0, 0, m_tInfo.fCX, m_tInfo.fCY, RGB(255, 255, 255));
 	//Rectangle(hDC, m_tRect.left, m_tRect.top, m_AniData.iWarpWidth, m_AniData.iHeight);
-	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	//Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 
 	TransparentBlt
 	(
 		hDC,
-		m_tRect.left +100,
+		m_tRect.left +fx ,
 		m_tRect.top,
 		m_tInfo.fCX,
 		m_tInfo.fCY,
@@ -90,4 +91,12 @@ void cPlayerFullBulletEffect::vRect()
 	m_tRect.top = static_cast<LONG>(m_tInfo.fY - m_tInfo.fCY * 0.5f);
 	m_tRect.right = static_cast<LONG>(m_tInfo.fX + m_tInfo.fCX * 0.5f );
 	m_tRect.bottom = static_cast<LONG>(m_tInfo.fY + m_tInfo.fCY * 0.5f );
+}
+
+void cPlayerFullBulletEffect::fxPlus()
+{
+	if (m_bDirection == true)
+		fx = 100;
+	else
+		fx = -100;
 }

@@ -30,8 +30,8 @@ void CLogoScene::Update()
 
 	if (m_pKeyMgr->KeyPressing(KEY_RETURN))
 	{
-		//CMainGame::GetInstance()->SetSceneIndex(STAGE1_SCENE);
-		CMainGame::GetInstance()->SetSceneIndex(BOSS_SCENE);
+		CMainGame::GetInstance()->SetSceneIndex(STAGE1_SCENE);
+		//CMainGame::GetInstance()->SetSceneIndex(BOSS_SCENE);
 
 	}
 	if (m_pKeyMgr->KeyPressing(KEY_DOWN))

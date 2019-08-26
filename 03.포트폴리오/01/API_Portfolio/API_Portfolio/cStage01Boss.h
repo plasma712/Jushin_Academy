@@ -43,8 +43,25 @@ public:
 	DWORD		dwPatternFrameSpeed;
 
 	void vDelay(DWORD _dwPatternFrameSpeed);
+	void		vPatternRand();
+	int			iRandom;
+	int		vRandomPos();
+	int			Pos;
+#pragma region 플레이어위치를 계산
+	void PlayerPointCal();
+	float WallX01;
+	float WallX02;
+	bool RightLeft;
 
-	
+
+	bool FirstAppear;
+	bool FirstAppear2;
+	bool Attack01;
+	bool Attack02;
+
+
+
+#pragma endregion
 
 #pragma region 애니메이션함수
 
@@ -56,6 +73,9 @@ public:
 	void vIDLE_WALK_LEFT();
 	void vATTACK01_RIGHT();
 	void vATTACK01_LEFT();
+	void vAttackFinRight();
+	void vAttackFinLeft();
+	
 
 #pragma endregion
 };

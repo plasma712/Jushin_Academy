@@ -21,14 +21,14 @@ cStage01Boss::~cStage01Boss()
 void cStage01Boss::Initialize()
 {
 	m_iCount = 0;
-	m_CurState = STAGE01BOSS_START_LEFT;
+	m_CurState = STAGE01BOSS_IDLE_RIGHT;
 	m_PreState = m_CurState;
 
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
 
-	m_Image = CMainGame::GetInstance()->GetResource()->Get(L"ColonelLeftStart");
-	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"ColonelLeftStart");
+	m_Image = CMainGame::GetInstance()->GetResource()->Get(L"ColonelIdleStartRight");
+	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"ColonelIdleStartRight");
 	m_AniData.dwFrameSpeed = 150;
 
 
@@ -52,13 +52,17 @@ void cStage01Boss::Initialize()
 	dwPatternCurTime = GetTickCount();
 	dwPatternOldTime = GetTickCount();
 
-	
+	FirstAppear = false;
+
 }
 
 int cStage01Boss::Update()
 {
 	PlayerX = CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_PLAYER].front()->GetInfo().fX;
 	PlayerY = CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_PLAYER].front()->GetInfo().fY;
+	WallX01 = CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_STAGEOBJECT].front()->GetInfo().fX;
+	WallX02 = CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_STAGEOBJECT].back()->GetInfo().fX;
+
 	MonsterX = m_tInfo.fX;
 	MonsterY = m_tInfo.fY;
 
@@ -67,7 +71,7 @@ int cStage01Boss::Update()
 		CEffectManager::CreateMonsterDeadEffect(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY, L"MonsterDeadEffect");
 		return DEAD_OBJ;
 	}
-
+	PlayerPointCal();
 	vBossFSM();
 	IsFrame();
 	IsAniMation();
@@ -79,7 +83,7 @@ int cStage01Boss::Update()
 void cStage01Boss::Render(HDC hDC)
 {
 	BossRect();
-	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	//Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 
 	TransparentBlt
 	(
@@ -102,41 +106,43 @@ void cStage01Boss::IsFrame()
 {
 	m_AniData.dwCurTime = GetTickCount();
 
-	if (m_AniData.dwCurTime - m_AniData.dwOldTime > m_AniData.dwFrameSpeed)
+	if (m_bAnimationWorking == true)
 	{
-		m_iAniCount++;
-		m_AniData.dwOldTime = m_AniData.dwCurTime;
-
-		if (m_CurState == STAGE01BOSS_ATTACK01_LEFT)
+		if (m_AniData.dwCurTime - m_AniData.dwOldTime > m_AniData.dwFrameSpeed)
 		{
-			if (m_iAniCount % 2 == 0)
+			m_iAniCount++;
+			m_AniData.dwOldTime = m_AniData.dwCurTime;
+
+			if (m_CurState == STAGE01BOSS_ATTACK01_LEFT)
 			{
-				UpDown = false;
-				m_pBulletLst->push_back((CreatePattern01Bullet()));
+				if (m_iAniCount % 2 == 0)
+				{
+					UpDown = true;
+					m_pBulletLst->push_back((CreatePattern01Bullet()));
+				}
+				if (m_iAniCount % 2 == 1 && m_iAniCount > 1)
+				{
+					UpDown = false;
+					m_pBulletLst->push_back((CreatePattern01Bullet()));
+				}
 			}
-			else
+			if (m_CurState == STAGE01BOSS_ATTACK01_RIGHT)
 			{
-				UpDown = true;
-				m_pBulletLst->push_back((CreatePattern01Bullet()));
-			}
-		}
-		if (m_CurState == STAGE01BOSS_ATTACK01_RIGHT)
-		{
-			if (m_iAniCount % 2 == 0)
-			{
-				UpDown = false;
-				m_pBulletLst->push_back((CreatePattern01Bullet()));
-			}
-			else
-			{
-				UpDown = true;
-				m_pBulletLst->push_back((CreatePattern01Bullet()));
+				if (m_iAniCount % 2 == 0)
+				{
+					UpDown = true;
+					m_pBulletLst->push_back((CreatePattern01Bullet()));
+				}
+				if (m_iAniCount % 2 == 1 && m_iAniCount > 1)
+				{
+					UpDown = false;
+					m_pBulletLst->push_back((CreatePattern01Bullet()));
+				}
+
 			}
 
 		}
-
 	}
-
 	if (m_iAniCount >= m_AniData.iImageCount)
 	{
 		m_iAniCount = 0;
@@ -175,20 +181,83 @@ void cStage01Boss::IsAniMation()
 	}
 }
 
-void cStage01Boss::vBossFSM()
+void cStage01Boss::vPatternRand()
+{
+	if (m_bAnimationWorking == false)
+		iRandom = rand() % 3;
+
+}
+
+int cStage01Boss::vRandomPos()
+{
+	Pos = rand() % 250 + 100;
+
+	return Pos;
+}
+
+void cStage01Boss::PlayerPointCal()
 {
 	if (m_bAnimationWorking == false)
 	{
-
-		m_CurState = STAGE01BOSS_IDLE_LEFT;
-		
-		m_bAnimationWorking = true;
+		if (PlayerX - WallX01 < WallX02 - PlayerX)
+		{
+			m_tInfo.fX = PlayerX + vRandomPos();
+			m_Direction = false;
+		}
+		else
+		{
+			m_tInfo.fX = PlayerX - vRandomPos();
+			m_Direction = true;
+		}
 	}
-	if (MonsterX - PlayerX < 300)// 플레이어와 맵 위치간의 거리를 특정오브젝트로 체크후 나타남.
+}
+
+
+void cStage01Boss::vBossFSM()
+{
+	if (FirstAppear == false&& m_bAnimationWorking==false)
 	{
-		//m_CurState = sta;
+		if (m_Direction == false)
+		{
+			vIDLE_LEFT();
+			FirstAppear = true;
+		}
+		else
+		{
+			vIDLE_RIGHT();
+			FirstAppear = true;
+		}
 	}
 
+	if (FirstAppear != false && m_bAnimationWorking == false)
+	{
+		if (FirstAppear2 == false)
+		{
+			if (m_Direction == false)
+			{
+				vSTART_LEFT();
+				FirstAppear2 = true;
+			}
+			else
+			{
+				vSTART_RIGHT();
+				FirstAppear2 = true;
+			}
+		}
+		else
+		{
+			if (m_bAnimationWorking == false && m_Direction == false)
+			{
+				m_CurState = STAGE01BOSS_ATTACK01_LEFT;
+				m_bAnimationWorking = true;
+			}
+			if (m_bAnimationWorking == false && m_Direction == true)
+			{
+				m_CurState = STAGE01BOSS_ATTACK01_RIGHT;
+				m_bAnimationWorking = true;
+			}
+		}
+	}
 }
 
 bool cStage01Boss::IsGround()
@@ -266,16 +335,14 @@ void cStage01Boss::SetBulletLst(OBJLIST * pBulletLst)
 
 void cStage01Boss::vDelay(DWORD _dwPatternFrameSpeed)
 {
-	while (true)
-	{
 		dwPatternCurTime = GetTickCount();
 		if (dwPatternCurTime - dwPatternOldTime > _dwPatternFrameSpeed)
 		{
 			dwPatternOldTime = dwPatternCurTime;
 			return;
 		}
-	}
 }
+
 
 void cStage01Boss::vSTART_RIGHT()
 {
@@ -303,26 +370,26 @@ void cStage01Boss::vSTART_LEFT()
 
 void cStage01Boss::vIDLE_RIGHT()
 {
-	//m_Image = CMainGame::GetInstance()->GetResource()->Get(L"ColonelIdleRight");
-	//m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"ColonelIdleRight");
-	//m_CurState = STAGE01BOSS_IDLE_RIGHT;
-	//m_PreState = m_CurState;
+	m_Image = CMainGame::GetInstance()->GetResource()->Get(L"ColonelIdleRight");
+	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"ColonelIdleRight");
+	m_CurState = STAGE01BOSS_IDLE_RIGHT;
+	m_PreState = m_CurState;
 
-	//m_AniData.dwCurTime = GetTickCount();
-	//m_AniData.dwOldTime = GetTickCount();
-	//m_AniData.dwFrameSpeed = 30;
+	m_AniData.dwCurTime = GetTickCount();
+	m_AniData.dwOldTime = GetTickCount();
+	m_AniData.dwFrameSpeed = 100;
 }
 
 void cStage01Boss::vIDLE_LEFT()
 {
-	//m_Image = CMainGame::GetInstance()->GetResource()->Get(L"ColonelIdleLeft");
-	//m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"ColonelIdleLeft");
-	//m_CurState = STAGE01BOSS_IDLE_LEFT;
-	//m_PreState = m_CurState;
+	m_Image = CMainGame::GetInstance()->GetResource()->Get(L"ColonelIdleLeft");
+	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"ColonelIdleLeft");
+	m_CurState = STAGE01BOSS_IDLE_LEFT;
+	m_PreState = m_CurState;
 
-	//m_AniData.dwCurTime = GetTickCount();
-	//m_AniData.dwOldTime = GetTickCount();
-	//m_AniData.dwFrameSpeed = 300;
+	m_AniData.dwCurTime = GetTickCount();
+	m_AniData.dwOldTime = GetTickCount();
+	m_AniData.dwFrameSpeed = 100;
 }
 
 void cStage01Boss::vIDLE_WALK_RIGHT()

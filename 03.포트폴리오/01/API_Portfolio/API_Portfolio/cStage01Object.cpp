@@ -30,14 +30,14 @@ void cStage01Object::Render(HDC hDC)
 {
 
 	vRect();
-	Rectangle
-	(
-		hDC,
-		m_tRect.left-100,
-		m_tRect.top-100,
-		m_tRect.right+100,
-		m_tRect.bottom+100
-	);
+	//Rectangle
+	//(
+	//	hDC,
+	//	m_tRect.left-100,
+	//	m_tRect.top-100,
+	//	m_tRect.right+100,
+	//	m_tRect.bottom+100
+	//);
 
 
 	//TransparentBlt

@@ -40,7 +40,7 @@ void CStage1Scene::Initialize()
 	m_ObjLst[OBJECT_PLAYER].push_back(pGameObject);
 	//LoadMonster();
 
-	for (int k = 1; k < 10; k++)
+	for (int k = 3; k < 10; k++)
 	{
 		pGameObject = CAbstractFactory<cGunman>::CreateObject(k*200+400,300);
 		dynamic_cast<cGunman*>(pGameObject)->SetBulletLst(&m_ObjLst[OBJECT_MONSTER_BULLET]);
@@ -68,6 +68,11 @@ void CStage1Scene::Update()
 	//	m_ObjLst[OBJECT_MONSTER].push_back(m_TmpLst.front());
 	//	m_TmpLst.pop_front();
 	//}
+	if (CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_PLAYER].front()->GetInfo().fX>=3000)
+	{
+		cScrollMgr::m_fScrollX = 0;
+		CMainGame::GetInstance()->SetSceneIndex(BOSS_SCENE);
+	}
 
 	for (int i = 0; i < OBJECT_END; ++i)
 	{

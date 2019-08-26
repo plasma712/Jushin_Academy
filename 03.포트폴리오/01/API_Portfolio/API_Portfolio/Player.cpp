@@ -259,7 +259,7 @@ void CPlayer::Render(HDC hDC)
 	//CGameObject::UpdateRect();
 	PlayerRectUpdate();
 
-	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	//Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 
 	TransparentBlt(
 		hDC,
@@ -330,7 +330,7 @@ void CPlayer::CreateBomb()
 
 void CPlayer::KeyInput()
 {
-	if (bInputable==true && NotDamage==false)
+	if (bInputable==true/* && NotDamage==false*/)
 	{
 		m_pKeyMgr->Update();
 	}
@@ -374,7 +374,7 @@ void CPlayer::KeyInput()
 		m_fSpeed = 10.f;
 		m_DashSpeedUp = false;
 		WalkAttackCheck = false;
-		NotDamage = false;
+		//NotDamage = false;
 
 	}
 
@@ -670,6 +670,18 @@ void CPlayer::OffSet()
 			cScrollMgr::m_fScrollX -= m_fSpeed;
 		}
 	}
+	//if (BossStage == true)
+	//{
+	//	if (WINCX / 2 < m_tInfo.fX-300.f - cScrollMgr::m_fScrollX) // 이거문제있음.
+	//	{
+	//		cScrollMgr::m_fScrollX += m_fSpeed;
+	//	}
+	//	if (WINCX / 2 - 300.f > m_tInfo.fX - cScrollMgr::m_fScrollX)
+	//	{
+	//		cScrollMgr::m_fScrollX -= m_fSpeed;
+	//	}
+	//}
+
 }
 
 
@@ -830,7 +842,7 @@ void CPlayer::vWALK_ATTACK_RIGHT()
 	m_iAniCount = 0;
 	m_AniData.dwCurTime = GetTickCount();
 	m_AniData.dwOldTime = GetTickCount();
-	m_AniData.dwFrameSpeed = 60;
+	m_AniData.dwFrameSpeed = 15;
 }
 
 void CPlayer::vDASH_RIGHT()

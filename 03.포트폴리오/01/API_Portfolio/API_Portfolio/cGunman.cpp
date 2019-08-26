@@ -45,7 +45,7 @@ void cGunman::Initialize()
 
 	m_Direction = false;
 
-	m_iHP = 2;
+	m_iHP = 20;
 }
 
 int cGunman::Update()
@@ -75,7 +75,7 @@ void cGunman::Render(HDC hDC)
 {
 	//CGameObject::UpdateRect();
 	GunManRect();
-	Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
+	//Rectangle(hDC, m_tRect.left, m_tRect.top, m_tRect.right, m_tRect.bottom);
 
 	TransparentBlt
 	(
@@ -180,19 +180,19 @@ void cGunman::vGunManFSM()
 		m_bAnimationWorking = true;
 	}
 
-	//if (MonsterX - PlayerX <450 && MonsterX - PlayerX>-450)
-	//{
-	//	if (PlayerX < MonsterX)
-	//	{
-	//		m_CurState = GUNMAN_ATTACK_RIGHT;
-	//		m_Direction = false;
-	//	}
-	//	else
-	//	{
-	//		m_CurState = GUNMAN_ATTACK_LEFT;
-	//		m_Direction = true;
-	//	}
-	//}
+	if (MonsterX - PlayerX <250 && MonsterX - PlayerX>-250)
+	{
+		if (PlayerX < MonsterX)
+		{
+			m_CurState = GUNMAN_ATTACK_RIGHT;
+			m_Direction = false;
+		}
+		else
+		{
+			m_CurState = GUNMAN_ATTACK_LEFT;
+			m_Direction = true;
+		}
+	}
 
 }
 

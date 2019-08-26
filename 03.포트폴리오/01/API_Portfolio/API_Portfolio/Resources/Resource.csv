@@ -101,12 +101,14 @@ RollingLeftAttack,./Resources/07.Monster/01.Rolling/02.Left/Rolling_left_01.bmp,
 RollingLeftAttackStop,./Resources/07.Monster/01.Rolling/01.Right/Rolling_left_02.bmp,6
 RollingLeftRight,./Resources/07.Monster/01.Rolling/02.Left/Rolling_left_04.bmp,3
 ColonelIdleRight,./Resources/07.Monster/03.Colonel/01.Right/Colonel_00.bmp,1
+ColonelIdleStartRight,./Resources/07.Monster/03.Colonel/01.Right/Colonel_00.bmp,1
 ColonelRightStart,./Resources/07.Monster/03.Colonel/01.Right/Colonel_01.bmp,7
 ColonelRightAttack,./Resources/07.Monster/03.Colonel/01.Right/Colonel_02.bmp,5
 ColonelAttackFinRight,./Resources/07.Monster/03.Colonel/01.Right/Colonel_03.bmp,6
 ColonelReRight,./Resources/07.Monster/03.Colonel/01.Right/Colonel_04.bmp,4
 ColonelAttackIdleRight,./Resources/07.Monster/03.Colonel/01.Right/Colonel_05.bmp,1
 ColonelIdleLeft,./Resources/07.Monster/03.Colonel/02.Left/Colonel_00.bmp,1
+ColonelIdleLeftStart,./Resources/07.Monster/03.Colonel/02.Left/Colonel_00.bmp,1
 ColonelLeftStart,./Resources/07.Monster/03.Colonel/02.Left/Colonel_01.bmp,7
 ColonelLeftAttack,./Resources/07.Monster/03.Colonel/02.Left/Colonel_02.bmp,5
 ColonelAttackFinLeft,./Resources/07.Monster/03.Colonel/02.Left/Colonel_03.bmp,6

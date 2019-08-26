@@ -74,7 +74,7 @@ void cBossBullet::Render(HDC hDC)
 		0,
 		m_AniData.iWarpWidth,  // 사진사이즈 X
 		m_AniData.iHeight,	   // 사진사이즈 Y
-		RGB(200, 0, 255)
+		RGB(255, 255, 255)
 	);
 }
 

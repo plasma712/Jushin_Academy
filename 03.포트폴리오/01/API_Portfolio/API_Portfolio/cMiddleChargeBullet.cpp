@@ -25,7 +25,7 @@ void cMiddleChargeBullet::Initialize()
 
 	m_fSpeed = 20.f;
 
-	m_iAttackDamage = 8;
+	m_iAttackDamage = 16;
 	m_iHP = 0;
 
 

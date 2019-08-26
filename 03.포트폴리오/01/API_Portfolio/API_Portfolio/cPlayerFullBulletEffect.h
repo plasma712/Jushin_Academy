@@ -24,5 +24,10 @@ public:
 	virtual void Release() override;
 
 	void vRect();
+
+	float fx;
+
+	void fxPlus();
+
 };
 

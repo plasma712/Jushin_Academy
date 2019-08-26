@@ -58,7 +58,7 @@ void cStageBossScene::Initialize()
 
 void cStageBossScene::Update()
 {
-	if(bfirst==false && CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_PLAYER].front()->GetInfo().fX >1000)
+	if(bfirst==false && CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_PLAYER].front()->GetInfo().fX >2000)
 		vBossCreate();
 
 	for (int i = 0; i < OBJECT_END; ++i)
@@ -88,7 +88,8 @@ void cStageBossScene::Update()
 
 	CCollisionManager::CollisionRect(m_ObjLst[OBJECT_MONSTER], m_ObjLst[OBJECT_BULLET]);
 	CCollisionManager::CollisionPlayerTerrain(m_ObjLst[OBJECT_PLAYER], m_ObjLst[OBJECT_STAGEOBJECT]);
-	//CCollisionManager::CollisionPlayerMonster(m_ObjLst[OBJECT_MONSTER], m_ObjLst[OBJECT_PLAYER]);
+	CCollisionManager::CollisionPlayerMonster(m_ObjLst[OBJECT_PLAYER], m_ObjLst[OBJECT_MONSTER_BULLET]);
+
 
 	CheckAniRoop(m_ObjLst[OBJECT_MONSTER_BULLET]);
 
@@ -124,7 +125,7 @@ void cStageBossScene::Render()
 		m_pResourceMgr->Get(L"BossStage"),		// 이미지 불러오기
 		0,
 		0,
-		780,
+		800,
 		180,
 		RGB(255, 255, 255)						//RGB(200,0,255)로 맞출껏
 	);
