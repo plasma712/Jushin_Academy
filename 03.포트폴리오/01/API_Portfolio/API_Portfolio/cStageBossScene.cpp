@@ -199,12 +199,21 @@ void cStageBossScene::vBossCreate()
 	dynamic_cast<cStage01Boss*>(pGameObject)->SetBulletLst(&m_ObjLst[OBJECT_MONSTER_BULLET]);
 	m_ObjLst[OBJECT_MONSTER].push_back(pGameObject);
 
-
+	pGameObject = CAbstractFactory<cStage01Object>::CreateObject(
+		CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_PLAYER].front()->GetInfo().fX-500,
+		CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_PLAYER].front()->GetInfo().fY
+	);
+	m_ObjLst[OBJECT_STAGEOBJECT].push_back(pGameObject);
 	//
 
-	//pGameObject = CAbstractFactory<CUIMgr>::CreateObject();
-	pGameObject = CAbstractFactory<CUIMgr>::CreateObject();
-	m_ObjLst[OBJECT_UI].push_back(pGameObject);
+	pGameObject = CAbstractFactory<cStage01Object>::CreateObject(
+		CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_PLAYER].front()->GetInfo().fX + 500,
+		CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_PLAYER].front()->GetInfo().fY
+	);
+	m_ObjLst[OBJECT_STAGEOBJECT].push_back(pGameObject);
+
+	CMainGame::GetInstance()->GetScene()->GetOBJLST()[OBJECT_PLAYER].front()->SetvBossStage(true);
+
 
 	pGameObject = CAbstractFactory<cBossUIMgr>::CreateObject();
 	m_ObjLst[OBJECT_BOSSUI].push_back(pGameObject);

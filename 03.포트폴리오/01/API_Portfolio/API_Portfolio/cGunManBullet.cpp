@@ -108,7 +108,7 @@ void cGunManBullet::IsOutRange()
 void cGunManBullet::vFirstPoint()
 {
 	FirstPoint = true;
-	if (m_bDirection == true)
+	if (m_bDirection == true )
 	{
 		m_tInfo.fX += 45;
 		m_tInfo.fY -= 40;

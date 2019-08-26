@@ -47,6 +47,9 @@ public:
 public:
 	void			UpdateRect();
 
+	void			SetvUpDown(bool _UpDown);
+	void			SetvBossStage(bool _BossStage);
+
 	public:
 	INFO			m_tInfo;
 	RECT			m_tRect;
@@ -68,4 +71,8 @@ public:
 	bool			NotDamage;
 	bool			bPlayer = false;
 	bool			m_Direction; // ÀÌ°Ô ÁÂ¿ì
+
+	bool			UpDown;
+	bool			BossStage;
+
 };

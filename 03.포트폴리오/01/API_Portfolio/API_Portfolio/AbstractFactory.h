@@ -35,6 +35,17 @@ public:
 		return pInstance;
 	}
 
+	static CGameObject* CreateObject(float x, float y, bool Direction,bool UpDown)
+	{
+		CGameObject* pInstance = new T;
+		pInstance->Initialize();
+		pInstance->SetPos(x, y);
+		pInstance->SetBulletDirection(Direction);
+		pInstance->SetvUpDown(UpDown);
+		return pInstance;
+	}
+
+
 	static CGameObject* CreateObject(float x, float y, bool Direction,float _BulletNumber)
 	{
 		CGameObject* pInstance = new T;

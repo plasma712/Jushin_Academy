@@ -106,6 +106,35 @@ void cStage01Boss::IsFrame()
 	{
 		m_iAniCount++;
 		m_AniData.dwOldTime = m_AniData.dwCurTime;
+
+		if (m_CurState == STAGE01BOSS_ATTACK01_LEFT)
+		{
+			if (m_iAniCount % 2 == 0)
+			{
+				UpDown = false;
+				m_pBulletLst->push_back((CreatePattern01Bullet()));
+			}
+			else
+			{
+				UpDown = true;
+				m_pBulletLst->push_back((CreatePattern01Bullet()));
+			}
+		}
+		if (m_CurState == STAGE01BOSS_ATTACK01_RIGHT)
+		{
+			if (m_iAniCount % 2 == 0)
+			{
+				UpDown = false;
+				m_pBulletLst->push_back((CreatePattern01Bullet()));
+			}
+			else
+			{
+				UpDown = true;
+				m_pBulletLst->push_back((CreatePattern01Bullet()));
+			}
+
+		}
+
 	}
 
 	if (m_iAniCount >= m_AniData.iImageCount)
@@ -123,22 +152,22 @@ void cStage01Boss::IsAniMation()
 		{
 			switch (m_CurState)
 			{
-			case GUNMAN_IDLE_RIGHT:
+			case STAGE01BOSS_START_RIGHT:
+				vSTART_RIGHT();
+				break;
+			case STAGE01BOSS_START_LEFT:
+				vSTART_LEFT();
+				break;
+			case STAGE01BOSS_IDLE_RIGHT:
 				vIDLE_RIGHT();
 				break;
-			case GUNMAN_IDLE_LEFT:
+			case STAGE01BOSS_IDLE_LEFT:
 				vIDLE_LEFT();
 				break;
-			case GUNMAN_IDLE_WALK_RIGHT:
-				vIDLE_WALK_LEFT();
-				break;
-			case GUNMAN_IDLE_WALK_LEFT:
-				vIDLE_WALK_LEFT();
-				break;
-			case GUNMAN_ATTACK_RIGHT:
+			case STAGE01BOSS_ATTACK01_RIGHT:
 				vATTACK01_RIGHT();
 				break;
-			case GUNMAN_ATTACK_LEFT:
+			case STAGE01BOSS_ATTACK01_LEFT:
 				vATTACK01_LEFT();
 				break;
 			}
@@ -150,6 +179,7 @@ void cStage01Boss::vBossFSM()
 {
 	if (m_bAnimationWorking == false)
 	{
+
 		m_CurState = STAGE01BOSS_IDLE_LEFT;
 		
 		m_bAnimationWorking = true;
@@ -224,7 +254,7 @@ void cStage01Boss::BossRect()
 
 CGameObject * cStage01Boss::CreatePattern01Bullet()
 {
-	return CAbstractFactory<cBossBullet>::CreateObject(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY, m_Direction);
+	return CAbstractFactory<cBossBullet>::CreateObject(this->GetInfo().fX - cScrollMgr::m_fScrollX, this->GetInfo().fY - cScrollMgr::m_fScrollY, m_Direction,UpDown);
 }
 
 void cStage01Boss::SetBulletLst(OBJLIST * pBulletLst)
@@ -305,10 +335,28 @@ void cStage01Boss::vIDLE_WALK_LEFT()
 
 void cStage01Boss::vATTACK01_RIGHT()
 {
+	m_Image = CMainGame::GetInstance()->GetResource()->Get(L"ColonelRightAttack");
+	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"ColonelRightAttack");
+	m_CurState = STAGE01BOSS_ATTACK01_RIGHT;
+	m_PreState = m_CurState;
+
+	m_AniData.dwCurTime = GetTickCount();
+	m_AniData.dwOldTime = GetTickCount();
+	m_AniData.dwFrameSpeed = 500;
+
 }
 
 void cStage01Boss::vATTACK01_LEFT()
 {
+	m_Image = CMainGame::GetInstance()->GetResource()->Get(L"ColonelLeftAttack");
+	m_AniData = CMainGame::GetInstance()->GetResource()->GetAniData(L"ColonelLeftAttack");
+	m_CurState = STAGE01BOSS_ATTACK01_LEFT;
+	m_PreState = m_CurState;
+
+	m_AniData.dwCurTime = GetTickCount();
+	m_AniData.dwOldTime = GetTickCount();
+	m_AniData.dwFrameSpeed = 500;
+
 }
 
 #pragma endregion

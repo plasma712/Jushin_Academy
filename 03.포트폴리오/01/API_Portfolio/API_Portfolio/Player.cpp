@@ -84,6 +84,7 @@ void CPlayer::Initialize()
 	dwPatternCurTime = GetTickCount();
 	dwPatternOldTime = GetTickCount();
 
+	BossStage = false;
 }
 
 
@@ -658,15 +659,17 @@ void CPlayer::IsOutRange()
 
 void CPlayer::OffSet()
 {
-	if (WINCX / 2 < m_tInfo.fX - cScrollMgr::m_fScrollX) // 이거문제있음.
+	if (BossStage == false)
 	{
-		cScrollMgr::m_fScrollX += m_fSpeed;
+		if (WINCX / 2 < m_tInfo.fX - cScrollMgr::m_fScrollX) // 이거문제있음.
+		{
+			cScrollMgr::m_fScrollX += m_fSpeed;
+		}
+		if (WINCX / 2 - 300.f > m_tInfo.fX - cScrollMgr::m_fScrollX)
+		{
+			cScrollMgr::m_fScrollX -= m_fSpeed;
+		}
 	}
-	if (WINCX / 2 - 300.f > m_tInfo.fX - cScrollMgr::m_fScrollX)
-	{
-		cScrollMgr::m_fScrollX -= m_fSpeed;
-	}
-
 }
 
 

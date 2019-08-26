@@ -92,6 +92,16 @@ void CGameObject::UpdateRect()
 	m_tRect.bottom = static_cast<LONG>(m_tInfo.fY + m_tInfo.fCY * 0.5f);
 }
 
+void CGameObject::SetvUpDown(bool _UpDown)
+{
+	UpDown = _UpDown;
+}
+
+void CGameObject::SetvBossStage(bool _BossStage)
+{
+	BossStage = _BossStage;
+}
+
 void CGameObject::SetBulletDirection(bool _bDirection)
 {
 	m_bDirection = _bDirection;

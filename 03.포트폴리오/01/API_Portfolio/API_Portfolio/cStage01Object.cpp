@@ -16,6 +16,9 @@ void cStage01Object::Initialize()
 	m_tInfo.fX = 600.f;
 	m_tInfo.fY = 200.f;
 
+	m_tInfo.fCX = 10.f;
+	m_tInfo.fCY = 300.f;
+
 }
 
 int cStage01Object::Update()

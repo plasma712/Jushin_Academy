@@ -34,7 +34,7 @@ void cRolling::Initialize()
 	m_tInfo.fX = 600.f;
 	m_tInfo.fY = 200.f;
 
-	m_fSpeed = 10.f;
+	m_fSpeed = 3.f;
 	m_bAnimationWorking = false;
 	m_iAniCount = 0;
 }
@@ -126,9 +126,11 @@ void cRolling::vRollingFSM()
 {
 	if (m_bAnimationWorking == false)
 	{
-		m_CurState = ROLLING_IDLE_RIGHT;
+		m_CurState = ROLLING_IDLE_LEFT;
 		m_bAnimationWorking = true;
 	}
+
+
 
 }
 

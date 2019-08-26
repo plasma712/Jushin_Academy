@@ -112,3 +112,5 @@ ColonelLeftAttack,./Resources/07.Monster/03.Colonel/02.Left/Colonel_02.bmp,5
 ColonelAttackFinLeft,./Resources/07.Monster/03.Colonel/02.Left/Colonel_03.bmp,6
 ColonelReLeft,./Resources/07.Monster/03.Colonel/02.Left/Colonel_04.bmp,4
 ColonelAttackIdleLeft,./Resources/07.Monster/03.Colonel/02.Left/Colonel_05.bmp,1
+ColonelBulletRight,./Resources/07.Monster/03.Colonel/01.Right/Colonel_07.bmp,3
+ColonelBulletLeft,./Resources/07.Monster/03.Colonel/02.Left/Colonel_07.bmp,3

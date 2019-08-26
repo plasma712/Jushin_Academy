@@ -97,22 +97,22 @@ void CCollisionManager::CollisionPlayerTerrain(const OBJLIST & _Player, const OB
 
 				if (fMoveX > fMoveY) // 파고든 깊이가 짧은 쪽으로 밀어낼 것.
 				{
-					// Y축 밀어내기
-					if (pDest->GetInfo().fY > fY)
-					{
-						// 위로 밀어낼 것.						
-						pSource->SetPos(fX, fY - fMoveY);
-					}
-					else
-						pSource->SetPos(fX, fY + fMoveY);
+					//// Y축 밀어내기
+					//if (pDest->GetInfo().fY > fY)
+					//{
+					//	// 위로 밀어낼 것.						
+					//	pSource->SetPos(fX, fY - fMoveY);
+					//}
+					//else
+					//	pSource->SetPos(fX, fY + fMoveY);
 				}
 				else
 				{
-					//// X축 밀어내기
-					//if (pDest->GetInfo().fX > fX)
-					//	pSource->SetPos(fX - fMoveX, fY);
-					//else
-					//	pSource->SetPos(fX + fMoveX, fY);
+					// X축 밀어내기
+					if (pDest->GetInfo().fX > fX)
+						pSource->SetPos(fX - fMoveX, fY);
+					else
+						pSource->SetPos(fX + fMoveX, fY);
 				}
 			}
 		}
